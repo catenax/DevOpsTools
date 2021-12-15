@@ -1,0 +1,25 @@
+on:
+  push:
+    paths:
+      - .github/workflows/backstage.yml
+
+jobs:
+  deploy:
+    name: Deploy Backstage
+    runs-on: ubuntu-latest
+    environment: Catena-X dev/int
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy Backstage
+        uses: deliverybot/helm@latest
+        with:
+          release: backstage
+          namespace: backstage
+          chart: deliveryhero/backstage
+          repo: https://charts.deliveryhero.io/
+          value-files: values.yaml
+          env:
+            KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
