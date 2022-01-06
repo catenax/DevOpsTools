@@ -13,8 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - run: backstage-values.sh
-        working-directory: Backstage
+      - run: |
+          chmod +x ./Backstage/backstage-values.sh
+          ./Backstage/backstage-values.sh
 
       - name: Deploy Backstage
         uses: deliverybot/helm@v1
