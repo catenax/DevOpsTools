@@ -17,7 +17,7 @@ jobs:
         working-directory: Backstage
 
       - name: Deploy Backstage
-        uses: deliverybot/helm@latest
+        uses: deliverybot/helm@v1
         with:
           release: backstage
           namespace: backstage
