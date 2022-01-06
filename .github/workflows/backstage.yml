@@ -1,7 +1,7 @@
 on:
   push:
-    paths:
-      - .github/workflows/backstage.yml
+    branches:
+      - backstage-deploy
 
 jobs:
   deploy:
@@ -13,13 +13,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - run: backstage-values.sh
+        working-directory: Backstage
+
       - name: Deploy Backstage
         uses: deliverybot/helm@latest
         with:
           release: backstage
           namespace: backstage
           chart: deliveryhero/backstage
-          repo: https://charts.deliveryhero.io/
-          value-files: values.yaml
+          repository: https://charts.deliveryhero.io/
+          value-files: Backstage/backstage-values.yaml
           env:
             KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
