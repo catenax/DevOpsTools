@@ -24,5 +24,5 @@ jobs:
           chart: deliveryhero/backstage
           repository: https://charts.deliveryhero.io/
           value-files: Backstage/backstage-values.yaml
-          env:
-            KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
+        env:
+          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
