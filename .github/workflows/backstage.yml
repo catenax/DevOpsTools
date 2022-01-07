@@ -22,11 +22,19 @@ jobs:
 
       - name: Deploy Backstage
         run: |
-          chmod +x ./Backstage/backstage-values.sh
-          ./Backstage/backstage-values.sh
-          kubectl config current-context
-          cat ./Backstage/backstage-values.yaml
-          #helm upgrade backstage deliveryhero/backstage --install --wait --namespace=backstage --set=app.name=backstage --repo=https://charts.deliveryhero.io/ --values=Backstage/backstage-values.yaml --atomic
+          echo -n "Current kube context: $(kubectl config current-context)"
+          helm repo add deliveryhero https://charts.deliveryhero.io
+          helm upgrade backstage deliveryhero/backstage \
+          --install \
+          --wait \
+          --namespace=backstage \
+          --set=app.name=backstage \
+          --values=Backstage/backstage-values.yaml \
+          --atomic \
+          --set appConfig.backend.database.connection.host=${{ secrets.PG_HOST }} \
+          --set appConfig.backend.database.connection.port=${{ secrets.PG_PORT }} \
+          --set appConfig.backend.database.connection.user=${{ secrets.CATENAX_ADMIN_USER }} \
+          --set appConfig.backend.database.connection.password=${{ secrets.CATENAX_ADMIN_PASSWORD }}
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1

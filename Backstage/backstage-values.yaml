@@ -10,10 +10,6 @@ appConfig:
       client: pg
       connection:
         database: backstage_plugin_catalog
-        host: PG_HOST
-        port: PG_PORT
-        user: PG_USER
-        password: PG_PASS
   lighthouse:
     baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/lighthouse-api
   techdocs:
