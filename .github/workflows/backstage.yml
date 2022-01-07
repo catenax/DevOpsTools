@@ -23,7 +23,7 @@ jobs:
         run: |
           chmod +x ./Backstage/backstage-values.sh
           ./Backstage/backstage-values.sh
-          helm upgrade backstage deliveryhero/backstage --install --wait --namespace=backstage --set=app.name=backstage --repo=https://charts.deliveryhero.io/ --values=Backstage/backstage-values.yaml --values=./values.yml --atomic
+          helm upgrade backstage deliveryhero/backstage --install --wait --namespace=backstage --set=app.name=backstage --repo=https://charts.deliveryhero.io/ --values=Backstage/backstage-values.yaml --atomic
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1
