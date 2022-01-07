@@ -23,9 +23,7 @@ jobs:
         run: |
           chmod +x ./Backstage/backstage-values.sh
           ./Backstage/backstage-values.sh
-          helm -n backstage uninstall backstage
-          sleep 120
-          helm -n backstage install backstage deliveryhero/backstage -f Backstage/backstage-values.yaml
+          helm upgrade backstage deliveryhero/backstage --install --wait --namespace=backstage --set=app.name=backstage --repo=https://charts.deliveryhero.io/ --values=Backstage/backstage-values.yaml --values=./values.yml --atomic
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1
