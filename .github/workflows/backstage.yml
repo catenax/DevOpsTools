@@ -13,17 +13,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - run: |
-          chmod +x ./Backstage/backstage-values.sh
-          ./Backstage/backstage-values.sh
+      - name: Set Kube Context
+        uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: Deploy Backstage
-        uses: deliverybot/helm@v1
-        with:
-          release: backstage
-          namespace: backstage
-          chart: deliveryhero/backstage
-          repository: https://charts.deliveryhero.io/
-          value-files: Backstage/backstage-values.yaml
-        env:
-          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
+        run: |
+          chmod +x ./Backstage/backstage-values.sh
+          ./Backstage/backstage-values.sh
+          helm -n backstage uninstall backstage
+          sleep 120
+          helm -n backstage install backstage deliveryhero/backstage -f Backstage/backstage-values.yaml
+
+#      - name: Deploy Backstage
+#        uses: deliverybot/helm@v1
+#        with:
+#          release: backstage
+#          namespace: backstage
+#          chart: deliveryhero/backstage
+#          repository: https://charts.deliveryhero.io/
+#          value-files: Backstage/backstage-values.yaml
+#        env:
+#          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
