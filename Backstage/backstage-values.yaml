@@ -27,3 +27,4 @@ lighthouse:
       port: PG_PORT
       user: PG_USER@PG_SRV
       password: PG_PASS
+  pathToDatabaseCa:
