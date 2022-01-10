@@ -1,11 +1,11 @@
 appConfig:
   app:
-    baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+    baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/backstage
     title: Backstage
   backend:
-    baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+    baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/backstage
     cors:
-      origin: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+      origin: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/backstage
     database:
       client: pg
       connection:
@@ -15,7 +15,9 @@ appConfig:
         password: PG_PASS
         database: backstage_plugin_catalog
   lighthouse:
-    baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/lighthouse-api
+    baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/backstage/lighthouse-api
   techdocs:
-    storageUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/api/techdocs/static/docs
-    requestUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/api/techdocs
+    storageUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/backstage/api/techdocs/static/docs
+    requestUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/backstage/api/techdocs
+lighthouse:
+  enabled: true
