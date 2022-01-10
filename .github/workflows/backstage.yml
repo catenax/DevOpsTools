@@ -22,21 +22,20 @@ jobs:
 
       - name: Deploy Backstage
         run: |
-          echo -n "Current kube context: $(kubectl config current-context)"
+          echo "Current kube context: $(kubectl config current-context)"
           sed -i "s/PG_HOST/${{ secrets.PG_HOST }}/g" Backstage/backstage-values.yaml
           sed -i "s/PG_PORT/${{ secrets.PG_PORT }}/g" Backstage/backstage-values.yaml
           sed -i "s/PG_USER/${{ secrets.CATENAX_ADMIN_USER }}/g" Backstage/backstage-values.yaml
           sed -i "s/PG_PASS/${{ secrets.CATENAX_ADMIN_PASSWORD }}/g" Backstage/backstage-values.yaml
           sed -i "s/PG_SRV/${{ secrets.PG_SRV }}/g" Backstage/backstage-values.yaml
-          cat Backstage/backstage-values.yaml
-          #helm repo add deliveryhero https://charts.deliveryhero.io
-          #helm upgrade backstage deliveryhero/backstage \
-          #--install \
-          #--wait \
-          #--namespace=backstage \
-          #--set=app.name=backstage \
-          #--values=Backstage/backstage-values.yaml \
-          #--atomic \
+          helm repo add deliveryhero https://charts.deliveryhero.io
+          helm upgrade backstage deliveryhero/backstage \
+          --install \
+          --wait \
+          --namespace=backstage \
+          --set=app.name=backstage \
+          --values=Backstage/backstage-values.yaml \
+          --atomic \
           #--set appConfig.backend.database.connection.host=${{ secrets.PG_HOST }} \
           #--set appConfig.backend.database.connection.port=${{ secrets.PG_PORT }} \
           #--set appConfig.backend.database.connection.user=${{ secrets.CATENAX_ADMIN_USER }} \
