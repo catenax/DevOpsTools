@@ -21,3 +21,9 @@ appConfig:
     requestUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/api/techdocs
 lighthouse:
   enabled: true
+  database:
+    connection:
+      host: PG_HOST
+      port: PG_PORT
+      user: PG_USER@PG_SRV
+      password: PG_PASS
