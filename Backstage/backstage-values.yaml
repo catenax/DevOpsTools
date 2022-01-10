@@ -11,7 +11,7 @@ appConfig:
       connection:
         host: PG_HOST
         port: PG_PORT
-        user: PG_USER
+        user: PG_USER@PG_SRV
         password: PG_PASS
         database: backstage_plugin_catalog
   lighthouse:
