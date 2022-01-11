@@ -14,17 +14,8 @@ appConfig:
         user: PG_USER@PG_SRV
         password: PG_PASS
         database: backstage_plugin_catalog
-  lighthouse:
-    baseUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/lighthouse-api
   techdocs:
     storageUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/api/techdocs/static/docs
     requestUrl: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/api/techdocs
 lighthouse:
-  enabled: true
-  database:
-    connection:
-      host: PG_HOST
-      port: PG_PORT
-      user: PG_USER@PG_SRV
-      password: PG_PASS
-  pathToDatabaseCa: /etc/ssl/certs/Baltimore_CyberTrust_Root.pem
+  enabled: false
