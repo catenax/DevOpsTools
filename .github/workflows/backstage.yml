@@ -34,4 +34,4 @@ jobs:
           --namespace=backstage \
           --set=app.name=backstage \
           --values=Backstage/backstage-values.yaml \
-          --atomic \
+          --atomic
