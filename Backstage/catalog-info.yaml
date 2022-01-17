@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Backstage
+  description: An open platform for building developer portals
+  labels:
+    enivronment: Catena-X dev/int
+    cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/custom: custom_label_value
+  annotations:
+    cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/service-discovery: backstage
+    github.com/project-slug: catenax/DevOpsTools/tree/main/Backstage
+  tags:
+    - java
+  links:
+    - url: https://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+      title: Backstage - Catena-X
+      icon: dashboard
+spec:
+  type: website
+  lifecycle: development
+  owner: catena-x dev support
+  system: public-websites
