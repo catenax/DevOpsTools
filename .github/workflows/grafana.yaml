@@ -21,10 +21,10 @@ jobs:
 
       - name: Deploy Grafana
 	env:
-          GRAFANA_ADMIN_PASS: ${{ secrets.GRAFANA_ADMIN_PASS }}
+	  GRAFANA_ADMIN_PASS: ${{ secrets.GRAFANA_ADMIN_PASS }}
           GRAFANA_ADMIN_USER: ${{ secrets.GRAFANA_ADMIN_USER }}
 	  GRAFANA_GH_CLIENT_ID: ${{ secrets.GRAFANA_GH_CLIENT_ID }}
-          GRAFANA_GH_CLIENT_SECRET: ${{ secrets.GRAFANA_GH_CLIENT_SECRET }}
+	  GRAFANA_GH_CLIENT_SECRET: ${{ secrets.GRAFANA_GH_CLIENT_SECRET }}
         run: |
           sed 's/GRAFANA_ADMIN_PASS/$GRAFANA_ADMIN_PASS/g' Grafana/values.yaml > Grafana/values.yaml
           sed 's/GRAFANA_ADMIN_USER/$GRAFANA_ADMIN_USER/g' Grafana/values.yaml > Grafana/values.yaml
