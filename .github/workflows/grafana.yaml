@@ -25,5 +25,4 @@ jobs:
           GRAFANA_ADMIN_USER: ${{ secrets.GRAFANA_ADMIN_USER }}
 	  GRAFANA_GH_CLIENT_ID: ${{ secrets.GRAFANA_GH_CLIENT_ID }}
           GRAFANA_GH_CLIENT_SECRET: ${{ secrets.GRAFANA_GH_CLIENT_SECRET }}
-        run:
-          helm upgrade grafana grafana/grafana --install --wait --namespace=monitoring --values=Grafana/values.yaml --atomic
+        run: helm upgrade grafana grafana/grafana --install --wait --namespace=monitoring --values=Grafana/values.yaml --atomic
