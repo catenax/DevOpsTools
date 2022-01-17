@@ -15,77 +15,83 @@
  */
 
 import {
-  googleAuthApiRef,
-  gitlabAuthApiRef,
-  oktaAuthApiRef,
+/* 
+ * googleAuthApiRef,
+ * gitlabAuthApiRef,
+ * oktaAuthApiRef,
+ */
   githubAuthApiRef,
-  samlAuthApiRef,
-  microsoftAuthApiRef,
-  oneloginAuthApiRef,
-  oauth2ApiRef,
-  oidcAuthApiRef,
-  bitbucketAuthApiRef,
+/* 
+ * samlAuthApiRef,
+ * microsoftAuthApiRef,
+ * oneloginAuthApiRef,
+ * oauth2ApiRef,
+ * oidcAuthApiRef,
+ * bitbucketAuthApiRef,
+ */
 } from '@backstage/core-plugin-api';
 
 export const providers = [
-  {
-    id: 'oidc-auth-provider',
-    title: 'Oidc',
-    message: 'Sign In using OpenId Connect',
-    apiRef: oidcAuthApiRef,
-  },
-  {
-    id: 'oauth2-auth-provider',
-    title: 'OAuth 2.0',
-    message: 'Sign In using OAuth 2.0',
-    apiRef: oauth2ApiRef,
-  },
-  {
-    id: 'google-auth-provider',
-    title: 'Google',
-    message: 'Sign In using Google',
-    apiRef: googleAuthApiRef,
-  },
-  {
-    id: 'microsoft-auth-provider',
-    title: 'Microsoft',
-    message: 'Sign In using Microsoft Azure AD',
-    apiRef: microsoftAuthApiRef,
-  },
-  {
-    id: 'gitlab-auth-provider',
-    title: 'GitLab',
-    message: 'Sign In using GitLab',
-    apiRef: gitlabAuthApiRef,
-  },
+/* {
+ *   id: 'oidc-auth-provider',
+ *   title: 'Oidc',
+ *   message: 'Sign In using OpenId Connect',
+ *   apiRef: oidcAuthApiRef,
+ * },
+ * {
+ *   id: 'oauth2-auth-provider',
+ *   title: 'OAuth 2.0',
+ *   message: 'Sign In using OAuth 2.0',
+ *   apiRef: oauth2ApiRef,
+ * },
+ * {
+ *   id: 'google-auth-provider',
+ *   title: 'Google',
+ *   message: 'Sign In using Google',
+ *   apiRef: googleAuthApiRef,
+ * },
+ * {
+ *   id: 'microsoft-auth-provider',
+ *   title: 'Microsoft',
+ *   message: 'Sign In using Microsoft Azure AD',
+ *   apiRef: microsoftAuthApiRef,
+ * },
+ * {
+ *   id: 'gitlab-auth-provider',
+ *   title: 'GitLab',
+ *   message: 'Sign In using GitLab',
+ *   apiRef: gitlabAuthApiRef,
+ * },
+ */
   {
     id: 'github-auth-provider',
     title: 'GitHub',
     message: 'Sign In using GitHub',
     apiRef: githubAuthApiRef,
   },
-  {
-    id: 'okta-auth-provider',
-    title: 'Okta',
-    message: 'Sign In using Okta',
-    apiRef: oktaAuthApiRef,
-  },
-  {
-    id: 'saml-auth-provider',
-    title: 'SAML',
-    message: 'Sign In using SAML',
-    apiRef: samlAuthApiRef,
-  },
-  {
-    id: 'onelogin-auth-provider',
-    title: 'OneLogin',
-    message: 'Sign In using OneLogin',
-    apiRef: oneloginAuthApiRef,
-  },
-  {
-    id: 'bitbucket-auth-provider',
-    title: 'Bitbucket',
-    message: 'Sign In using Bitbucket',
-    apiRef: bitbucketAuthApiRef,
-  },
+/*  {
+ *   id: 'okta-auth-provider',
+ *   title: 'Okta',
+ *   message: 'Sign In using Okta',
+ *   apiRef: oktaAuthApiRef,
+ * },
+ * {
+ *   id: 'saml-auth-provider',
+ *   title: 'SAML',
+ *   message: 'Sign In using SAML',
+ *   apiRef: samlAuthApiRef,
+ * },
+ * {
+ *   id: 'onelogin-auth-provider',
+ *   title: 'OneLogin',
+ *   message: 'Sign In using OneLogin',
+ *   apiRef: oneloginAuthApiRef,
+ * },
+ * {
+ *   id: 'bitbucket-auth-provider',
+ *   title: 'Bitbucket',
+ *   message: 'Sign In using Bitbucket',
+ *   apiRef: bitbucketAuthApiRef,
+ * },
+ */
 ];
