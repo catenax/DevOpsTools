@@ -32,7 +32,6 @@ import {
   AlertDisplay,
   OAuthRequestDialog,
   SignInPage,
-  SignInProviderConfig
 } from '@backstage/core-components';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import { AzurePullRequestsPage } from '@backstage/plugin-azure-devops';
@@ -84,19 +83,11 @@ import { HomePage } from './components/home/HomePage';
 import { Root } from './components/Root';
 import { LowerCaseValuePickerFieldExtension } from './components/scaffolder/customScaffolderExtensions';
 import { searchPage } from './components/search/SearchPage';
+import { providers } from './identityProviders';
 import * as plugins from './plugins';
 
 import { techDocsPage } from './components/techdocs/TechDocsPage';
 import { ApacheAirflowPage } from '@backstage/plugin-apache-airflow';
-
-import { githubAuthApiRef } from '@backstage/core-plugin-api';
-
-const githubProvider: SignInProviderConfig = {
-  id: 'github-auth-provider',
-  title: 'GitHub',
-  message: 'Sign in using GitHub',
-  apiRef: githubAuthApiRef,
-};
 
 const app = createApp({
   apis,
@@ -110,7 +101,7 @@ const app = createApp({
       return (
         <SignInPage
           {...props}
-          providers={['guest', githubProvider]}
+          providers={['guest', ...providers]}
           title="Select a sign-in method"
           align="center"
         />
