@@ -4,7 +4,7 @@ metadata:
   name: Backstage
   description: An open platform for building developer portals
   labels:
-    enivronment: Catena-X dev/int
+    enivronment: Catena-X_dev_int
     cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/custom: custom_label_value
   annotations:
     cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/service-discovery: backstage
