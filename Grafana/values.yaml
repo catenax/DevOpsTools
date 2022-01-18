@@ -1,6 +1,6 @@
 grafana.ini:
   server:
-    root_url: http://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com/grafana
+    root_url: http://cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
   auth.github:
     auth_url: https://github.com/login/oauth/authorize
     token_url: https://github.com/login/oauth/access_token
@@ -13,7 +13,7 @@ grafana.ini:
 ingress:
   enabled: true
   ingressClassName: nginx
-  path: /grafana 
+  path: /
   pathType: Exact
   hosts:
     - cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
