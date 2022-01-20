@@ -1,3 +1,7 @@
+service:
+  labels:
+    app: grafana
+
 grafana.ini:
   server:
     root_url: http://grafana.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
