@@ -4,7 +4,7 @@ service:
 
 grafana.ini:
   server:
-    root_url: http://grafana.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+    root_url: http://grafana.47fc360e217349b384cd.germanywestcentral.aksapp.io
   auth.github:
     auth_url: https://github.com/login/oauth/authorize
     token_url: https://github.com/login/oauth/access_token
