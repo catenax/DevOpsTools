@@ -17,14 +17,3 @@ spec:
             name: grafana
             port: 
               number: 80
-              
-  - host: backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: backstage
-            port: 
-              number: 80
