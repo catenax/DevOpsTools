@@ -15,14 +15,6 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: 8080
-  - name: https-443
-    port: 443
-    protocol: TCP
-    targetPort: 443
-  - name: https-8443
-    port: 8443
-    protocol: TCP
-    targetPort: 8443
   selector:
     app: grafana
   sessionAffinity: None
