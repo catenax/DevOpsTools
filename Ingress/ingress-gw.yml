@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: ingress-gw
   annotations:
-  kubernetes.io/ingress.class: addon-http-application-routing
+    kubernetes.io/ingress.class: addon-http-application-routing
 spec:
 #  ingressClassName: nginx
   rules:
