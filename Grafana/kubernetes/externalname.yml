@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  name: grafana
+  namespace: monitoring
+spec:
+  externalName: grafana.monitoring.svc.cluster.local
+  ports:
+  - name: http-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: http-8080
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: https-443
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  - name: https-8443
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app: grafana
+  sessionAffinity: None
+  type: ExternalName
