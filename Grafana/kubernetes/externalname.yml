@@ -3,7 +3,7 @@ kind: Service
 metadata:
   annotations:
   name: grafana
-  namespace: monitoring
+  namespace: default
 spec:
   externalName: grafana.monitoring.svc.cluster.local
   ports:
