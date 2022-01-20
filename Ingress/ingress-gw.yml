@@ -1,4 +1,4 @@
-iapiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-gw
@@ -16,7 +16,8 @@ spec:
             name: grafana
             port: 
               number: 80
-        - host: backstage.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+              
+  - host: backstage.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
     http:
       paths:
       - path: /
