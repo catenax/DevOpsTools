@@ -13,7 +13,7 @@ spec:
         pathType: Prefix
         backend:
           service: 
-            name: grafana
+            name: grafana.monitoring.svc.cluster.local
             port: 
               number: 80
               
