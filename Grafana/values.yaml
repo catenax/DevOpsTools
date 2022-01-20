@@ -10,13 +10,13 @@ grafana.ini:
     client_id: GRAFANA_GH_CLIENT_ID
     client_secret: GRAFANA_GH_CLIENT_SECRET
 
-ingress:
-  enabled: false 
-  ingressClassName: nginx
-  path: /
-  pathType: Exact
-  hosts:
-    - grafana.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+# ingress:
+#   enabled: false 
+#   ngressClassName: nginx
+#   path: /
+#   pathType: Exact
+#   hosts:
+#     - grafana.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
 
 adminUser: GRAFANA_ADMIN_USER
 adminPassword: GRAFANA_ADMIN_PASS 
