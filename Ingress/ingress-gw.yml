@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-  - host: grafana.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+  - host: grafana.47fc360e217349b384cd.germanywestcentral.aksapp.io
     http:
       paths:
       - path: /
@@ -17,7 +17,7 @@ spec:
             port: 
               number: 80
               
-  - host: backstage.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+  - host: backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
     http:
       paths:
       - path: /
