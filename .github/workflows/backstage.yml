@@ -19,9 +19,9 @@ jobs:
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
-          docker build .  -f packages/backend/Dockerfile -t cxtsiacr.azurecr.io/backstage:${ env.bstag }
-          docker login cxtsiacr.azurecr.io -u ${ secrets.ACR_USER } -p ${ secrets.ACR_PASS }
-          docker push cxtsiacr.azurecr.io/backstage:${ env.bstag }
+          docker build .  -f packages/backend/Dockerfile -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
+          docker login cxtsiacr.azurecr.io -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_PASS }}
+          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
 
 #  deploy:
 #    name: Deploy Backstage
