@@ -1,6 +1,6 @@
-on:
-  push:
-    branches:
+# on:
+#  push:
+#    branches:
 #      - feature/A1ODT-93
 
 jobs:
