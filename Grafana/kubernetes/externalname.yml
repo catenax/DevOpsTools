@@ -5,17 +5,7 @@ metadata:
   name: grafana
   namespace: default
 spec:
+  type: ExternalName
   externalName: grafana.monitoring.svc.cluster.local
   ports:
-  - name: http-80
-    port: 80
-    protocol: TCP
-    targetPort: 80
-  - name: http-8080
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: grafana
-  sessionAffinity: None
-  type: ExternalName
+  - port: 80
