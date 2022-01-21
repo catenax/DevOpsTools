@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-gw
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: grafana.47fc360e217349b384cd.germanywestcentral.aksapp.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: grafana
+            port: 
+              number: 80
+  - host: backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: backstage
+            port: 
+              number: 80
+  - host: edc.47fc360e217349b384cd.germanywestcentral.aksapp.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: edc
+            port: 
+              number: 80

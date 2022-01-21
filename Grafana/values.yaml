@@ -1,0 +1,29 @@
+grafana.ini:
+  server:
+    root_url: http://grafana.47fc360e217349b384cd.germanywestcentral.aksapp.io
+  auth.github:
+    auth_url: https://github.com/login/oauth/authorize
+    token_url: https://github.com/login/oauth/access_token
+    api_url: https://api.github.com/user
+    enabled: true
+    allowed_organizations: catenax
+    client_id: GRAFANA_GH_CLIENT_ID
+    client_secret: GRAFANA_GH_CLIENT_SECRET
+
+# ingress:
+#   enabled: false 
+#   ngressClassName: nginx
+#   path: /
+#   pathType: Exact
+#   hosts:
+#     - grafana.cxtsidevopstoolsakssrv.germanywestcentral.cloudapp.azure.com
+
+adminUser: GRAFANA_ADMIN_USER
+adminPassword: GRAFANA_ADMIN_PASS 
+
+# Use an existing secret for the admin user.
+#admin:
+#  existingSecret: ""
+#  userKey: admin-user
+#  passwordKey: admin-password
+

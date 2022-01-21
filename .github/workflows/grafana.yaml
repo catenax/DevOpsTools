@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - feature/A1ODT-93
+
+jobs:
+  deploy:
+    name: Deploy Grafana 
+    runs-on: ubuntu-latest
+    environment: Catena-X dev/int
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set Kube Context
+        uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Deploy Grafana
+        env:
+          GRAFANA_ADMIN_PASS: ${{ secrets.GRAFANA_ADMIN_PASS }}
+          GRAFANA_ADMIN_USER: ${{ secrets.GRAFANA_ADMIN_USER }}
+          GRAFANA_GH_CLIENT_ID: ${{ secrets.GRAFANA_GH_CLIENT_ID }}
+          GRAFANA_GH_CLIENT_SECRET: ${{ secrets.GRAFANA_GH_CLIENT_SECRET }}
+        run: |
+          sed -i "s/GRAFANA_ADMIN_PASS/$GRAFANA_ADMIN_PASS/g" Grafana/values.yaml
+          sed -i "s/GRAFANA_ADMIN_USER/$GRAFANA_ADMIN_USER/g" Grafana/values.yaml
+          sed -i "s/GRAFANA_GH_CLIENT_ID/$GRAFANA_GH_CLIENT_ID/g" Grafana/values.yaml
+          sed -i "s/GRAFANA_GH_CLIENT_SECRET/$GRAFANA_GH_CLIENT_SECRET/g" Grafana/values.yaml
+          helm upgrade grafana grafana --install --wait --repo=https://grafana.github.io/helm-charts --namespace=monitoring --values=Grafana/values.yaml --atomic
+          kubectl apply -f Grafana/kubernetes/externalname.yml
+          kubectl apply -f Ingress/ingress-gw.yml
+          
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: my-artifact
+#          path: Grafana/values.yaml
