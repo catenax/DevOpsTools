@@ -312,7 +312,7 @@ auth:
     github:
       development:
         appOrigin: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
-        callbackUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/auth/github
+        callbackUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/auth/github/handler/frame
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 #    gitlab:
