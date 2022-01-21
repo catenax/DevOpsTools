@@ -31,6 +31,7 @@ jobs:
           sed 's/GRAFANA_GH_CLIENT_ID/$GRAFANA_GH_CLIENT_ID/g' Grafana/values.yaml > Grafana/values.yaml
           sed 's/GRAFANA_GH_CLIENT_SECRET/$GRAFANA_GH_CLIENT_SECRET/g' Grafana/values.yaml > Grafana/values.yaml
           cat Grafana/values.yaml | grep client_id
+          sleep 5000
           helm upgrade grafana grafana --install --wait --repo=https://grafana.github.io/helm-charts --namespace=monitoring --values=Grafana/values.yaml --atomic
           kubectl apply -f Grafana/kubernetes/externalname.yml
           kubectl apply -f Ingress/ingress-gw.yml
