@@ -6,7 +6,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-#  ingressClassName: nginx
   rules:
   - host: grafana.47fc360e217349b384cd.germanywestcentral.aksapp.io
     http:
