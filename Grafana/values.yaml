@@ -10,6 +10,8 @@ grafana.ini:
     client_id: GRAFANA_GH_CLIENT_ID
     client_secret: GRAFANA_GH_CLIENT_SECRET
 
+persistence:
+  enabled: true
 # ingress:
 #   enabled: false 
 #   ngressClassName: nginx
