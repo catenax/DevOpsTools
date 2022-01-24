@@ -4,4 +4,6 @@ prometheus.yml:
       scheme: http
     - job_name: 'kubernetes-nodes-cadvisor'
       scheme: http
-  
+ 
+forceNamespace: monitoring
+ 
