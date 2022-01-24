@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy Prometheus 
         run: |
-          helm upgrade prometheus prometheus --install --wait --repo=https://prometheus-community.github.io/helm-charts
+          helm upgrade prometheus prometheus --install --wait --repo=https://prometheus-community.github.io/helm-charts -n monitoring
           kubectl apply -f Prometheus/kubernetes/externalname.yml
           kubectl apply -f Ingress/ingress-gw.yml
           

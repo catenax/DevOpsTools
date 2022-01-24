@@ -13,4 +13,3 @@ grpc:
     tls:
       enabled: false
 
-explicitNamespacesSelector: monitoring

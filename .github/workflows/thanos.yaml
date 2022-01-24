@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy Thanos 
         run: |
-          helm upgrade thanos thanos --install --wait --repo=https://charts.bitnami.com/bitnami
+          helm upgrade thanos thanos --install --wait --repo=https://charts.bitnami.com/bitnami -n monitoring
           kubectl apply -f Thanos/kubernetes/externalname.yml
           kubectl apply -f Ingress/ingress-gw.yml
           

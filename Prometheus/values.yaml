@@ -5,5 +5,3 @@ prometheus.yml:
     - job_name: 'kubernetes-nodes-cadvisor'
       scheme: http
  
-forceNamespace: monitoring
- 
