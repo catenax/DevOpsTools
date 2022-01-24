@@ -67,8 +67,5 @@ spec:
         backend:
           service:
             name: thanos-query-frontend
-            ports:
-              - name: http
-                port: 80
-                targetPort: 9090
-                protocol: TCP
+            port:
+              number: 9090
