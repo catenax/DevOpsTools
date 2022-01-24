@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - feature/A1ODT-93
+
+jobs:
+  deploy:
+    name: Deploy Thanos 
+    runs-on: ubuntu-latest
+    environment: Catena-X dev/int
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set Kube Context
+        uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Deploy Thanos 
+        run: |
+          helm upgrade thanos thanos --install --wait --repo=https://charts.bitnami.com/bitnami
+          kubectl apply -f Thanos/kubernetes/externalname.yml
+          kubectl apply -f Ingress/ingress-gw.yml
+          
