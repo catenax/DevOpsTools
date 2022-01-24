@@ -57,7 +57,7 @@ spec:
           service:
             name: thanos-query
             port:
-              number: 80
+              number: 9090 
   
   - host: thanos.47fc360e217349b384cd.germanywestcentral.aksapp.io
     http:
