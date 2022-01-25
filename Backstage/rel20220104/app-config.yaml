@@ -1,6 +1,6 @@
 app:
   title: Backstage - Catena-X
-  baseUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
+  baseUrl: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -23,7 +23,7 @@ backend:
   auth:
     keys:
       - secret: ${BACKEND_SECRET}
-  baseUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
+  baseUrl: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
   listen:
     port: 7007
   database:
@@ -37,7 +37,7 @@ backend:
   cache:
     store: memory
   cors:
-    origin: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
+    origin: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   csp:
@@ -122,8 +122,8 @@ techdocs:
     # pullImage: true # or false to disable automatic pulling of image (e.g. if custom docker login is required)
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
-  storageUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/techdocs/static/docs
-  requestUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/techdocs
+  storageUrl: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/techdocs/static/docs
+  requestUrl: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/techdocs
 
 sentry:
   organization: my-company
@@ -134,7 +134,7 @@ rollbar:
   accountToken: my-rollbar-account-token
 
 lighthouse:
-  baseUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/lighthouse-api
+  baseUrl: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/lighthouse-api
 
 kubernetes:
   serviceLocatorMethod:
@@ -311,8 +311,8 @@ auth:
 #        clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
     github:
       development:
-        appOrigin: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
-        callbackUrl: https://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/auth/github/handler/frame
+        appOrigin: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io
+        callbackUrl: http://backstage.47fc360e217349b384cd.germanywestcentral.aksapp.io/api/auth/github/handler/frame
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 #    gitlab:
