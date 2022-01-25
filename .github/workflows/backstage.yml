@@ -4,7 +4,7 @@ on:
       - backstage
 
 env:
-  bstag: 0.1.1
+  bstag: 0.1.2
 
 jobs:
   build:
