@@ -1,3 +1,6 @@
+grafana:
+  adminPassword: admin 
+
 prometheus:
   thanosService:
     enabled: true
