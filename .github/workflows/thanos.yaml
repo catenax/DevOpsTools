@@ -23,9 +23,9 @@ jobs:
         env:
           THANOS_STORAGEACCOUNT_KEY: ${{ secrets.THANOS_STORAGEACCOUNT_KEY }}
         run: |
-          sed -i "s/THANOS_STORAGEACCOUNT_KEY/$THANOS_STORAGEACCOUNT_KEY/g" Thanos/kubernetes/storageaccount.yaml
+          # sed -i "s/THANOS_STORAGEACCOUNT_KEY/$THANOS_STORAGEACCOUNT_KEY/g" Thanos/kubernetes/storageaccount.yaml
           
-          kubectl -n monitoring create secret generic thanos-objstore-config -f Thanos/kubernetes/storageaccount.yaml
+          # kubectl -n monitoring create secret generic thanos-objstore-config -f Thanos/kubernetes/storageaccount.yaml
           kubectl apply -f Thanos/kubernetes/querier-deployment.yaml
           kubectl apply -f Thanos/kubernetes/store-statefulset.yaml
           kubectl apply -f Thanos/kubernetes/compactor-stateful-set.yaml
