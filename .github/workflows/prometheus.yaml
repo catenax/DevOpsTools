@@ -20,8 +20,14 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: Deploy Prometheus 
+        env:
+          THANOS_STORAGEACCOUNT_KEY: ${{ secrets.THANOS_STORAGEACCOUNT_KEY }}
         run: |
-          helm upgrade prometheus prometheus --install --wait --repo=https://prometheus-community.github.io/helm-charts -n monitoring
+          sed -i "s/THANOS_STORAGEACCOUNT_KEY/$THANOS_STORAGEACCOUNT_KEY/g" Thanos/kubernetes/storageaccount.yaml
+
+          kubectl -n monitoring create secret generic thanos-objstore-config -f Thanos/kubernetes/storageaccount.yaml
+
+          helm upgrade prometheus prometheus --install --wait --repo=https://prometheus-community.github.io/helm-charts --namespace=monitoring --values=Prometheus/prometheus.yaml --atomic
           kubectl apply -f Prometheus/kubernetes/externalname.yml
           kubectl apply -f Ingress/ingress-gw.yml
           

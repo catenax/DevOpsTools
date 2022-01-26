@@ -20,9 +20,17 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: Deploy Thanos 
+        env:
+          THANOS_STORAGEACCOUNT_KEY: ${{ secrets.THANOS_STORAGEACCOUNT_KEY }}
         run: |
-          helm upgrade thanos thanos --install --wait --repo=https://charts.bitnami.com/bitnami -n monitoring
-          kubectl apply -f Thanos/kubernetes/externalname.yml
-          kubectl apply -f Thanos/kubernetes/externalname-frontend.yml
+          sed -i "s/THANOS_STORAGEACCOUNT_KEY/$THANOS_STORAGEACCOUNT_KEY/g" Thanos/kubernetes/storageaccount.yaml
+          
+          kubectl -n monitoring create secret generic thanos-objstore-config -f Thanos/kubernetes/storageaccount.yaml
+          kubectl apply -f Thanos/kubernetes/querier-deployment.yaml
+          kubectl apply -f Thanos/kubernetes/store-statefulset.yaml
+          kubectl apply -f Thanos/kubernetes/compactor-stateful-set.yaml
+          kubectl apply -f Thanos/kubernetes/compactor-service-servicemonitor.yaml
+          kubectl apply -f Thanos/kubernetes/store-servicemonitor.yaml
+          kubectl apply -f Grafana/kubernetes/externalname.yml
           kubectl apply -f Ingress/ingress-gw.yml
           

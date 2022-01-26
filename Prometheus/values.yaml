@@ -1,7 +1,0 @@
-prometheus.yml:
-  scrape_configs:
-    - job_name: 'kubernetes-nodes'
-      scheme: http
-    - job_name: 'kubernetes-nodes-cadvisor'
-      scheme: http
- 
