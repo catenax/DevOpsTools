@@ -28,7 +28,7 @@ jobs:
           # kubectl -n monitoring create secret generic thanos-objstore-config -f Thanos/kubernetes/storageaccount.yaml
           kubectl apply -f Thanos/kubernetes/querier-deployment.yaml
           kubectl apply -f Thanos/kubernetes/store-statefulset.yaml
-          kubectl apply -f Thanos/kubernetes/compactor-stateful-set.yaml
+          kubectl apply -f Thanos/kubernetes/compactor-statefulset.yaml
           kubectl apply -f Thanos/kubernetes/compactor-service-servicemonitor.yaml
           kubectl apply -f Thanos/kubernetes/store-servicemonitor.yaml
           kubectl apply -f Grafana/kubernetes/externalname.yml
