@@ -237,7 +237,7 @@ include "lighthouse.postgresql.passwordSecret" .
 .Values.lighthouse.database.connection.password
 
 and app-config part based on these custom values (check latest settings):
-
+```
 app:
   title: Backstage - Catena-X
   baseUrl: http://backstage.47fc360e217349b384cd.germanywestc
@@ -283,3 +283,4 @@ homepage:
 	- label: BER
 	  timezone: 'Europe/Berlin'
 	# add Budapest, SaintPetersburg, Pune, etc???
+```
