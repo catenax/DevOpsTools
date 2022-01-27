@@ -1,8 +1,6 @@
 TODO: update values.yaml based on the following varaiables
 
-###########################################
-### Frontend - frontend-deployment.yaml
-###########################################
+# Frontend - frontend-deployment.yaml
 
 - if .Values.frontend.enabled
 include "backstage.fullname" .
@@ -25,9 +23,7 @@ include "frontend.serviceName" .
 .Values.frontend.containerPort
 .Values.frontend.serviceType
 
-###########################################
-### Backend - backend-deployment.yaml
-###########################################
+# Backend - backend-deployment.yaml
 
 include "backstage.fullname" .
 .Values.backend.replicaCount
@@ -56,7 +52,7 @@ include "backend.serviceName" .
 .Values.backend.containerPort
 .Values.backend.serviceType
 
-#secret (backstage-backend) - backend-secret.yaml
+### secret (backstage-backend) - backend-secret.yaml
 
 - if .Values.backend.enabled
 include "backstage.fullname" .
@@ -77,7 +73,7 @@ include "backstage.fullname" .
 .Values.auth.travisciAuthToken
 .Values.auth.pagerdutyToken
 
-# configmap (backstage-app-config) - backstage-app-config.yaml
+### configmap (backstage-app-config) - backstage-app-config.yaml
 
 include "backstage.fullname" .
 include "backstage.appConfigFilename" .
@@ -97,7 +93,7 @@ include "backstage.fullname" .
 .Values.appConfig.auth.providers.okta.development.appOrigin
 .Values.appConfig.auth.providers.oauth2.development.appOrigin
 
-# configmap (backstage-auth) - backstage-auth-config.yaml
+### configmap (backstage-auth) - backstage-auth-config.yaml
 
 include "backstage.fullname" .
 .Values.auth.google.clientId
@@ -114,9 +110,7 @@ include "backstage.fullname" .
 .Values.auth.microsoft.clientId
 .Values.auth.microsoft.tenantId
 
-###########################################
-# ingress (backstage-ingress) - ingress.yaml
-###########################################
+### ingress (backstage-ingress) - ingress.yaml
 
 - $frontendUrl := urlParse .Values.appConfig.app.baseUrl		#<- frontend
 - $backendUrl := urlParse .Values.appConfig.backend.baseUrl
@@ -148,15 +142,13 @@ $frontendUrl.host
 $lighthouseUrl.path
 include "lighthouse.serviceName" .
 
-# issuer - update cert-manager version and solver(s)
+### issuer - update cert-manager version and solver(s)
 
 .Values.issuer.clusterIssuer
 required "expected a valid .Values.issuer.email to enable ClusterIssuer" .Values.issuer.email
 required "expected .Values.issuer.cluster-issuer to not be empty (letsencrypt-prod | letsencrypt-staging)" .Values.issuer.clusterIssuer
 
-###########################################
-### Lighthouse
-###########################################
+# Lighthouse
 
 - if .Values.lighthouse.enabled
 include "backstage.fullname" .
@@ -182,7 +174,7 @@ include "lighthouse.serviceName" .
 .Values.lighthouse.containerPort
 .Values.lighthouse.serviceType
 
-# configmap (backstage-lighthouse) - lighthouse-config.yaml
+### configmap (backstage-lighthouse) - lighthouse-config.yaml
 
 - if .Values.lighthouse.enabled
 include "backstage.fullname" . -
@@ -192,11 +184,9 @@ include "lighthouse.postgresql.port" .
 include "lighthouse.postgresql.host" .
 include "backstage.lighthouse.postgresCaFilename" .
 
-###########################################
-### Postgresql
-###########################################
+# Postgresql
 
-# configmap (backstage-postgres-ca) - postgresql-ca-config.yaml
+### configmap (backstage-postgres-ca) - postgresql-ca-config.yaml
 
 - if .Values.postgresql.enabled
 include "backstage.fullname" .
@@ -207,7 +197,7 @@ include "backstage.postgresql.generateCA" .
 include "backstage.fullname" .
 .Release.Namespace $caConfig
 
-# secret () - postgresql-certs-secret.yaml
+### secret () - postgresql-certs-secret.yaml
 
 - if .Values.postgresql.enabled
 .Values.postgresql.tls.certificatesSecret
@@ -215,20 +205,20 @@ include "backstage.postgresql.fullname" .
 .Release.Name
 include "generateCerts" .
 
-# secret () - postgresql-initdb-secret.yaml
+### secret () - postgresql-initdb-secret.yaml
 
 - if .Values.postgresql.enabled
 .Values.postgresql.initdbScriptsSecret
 .Files.Get "files/create-backend-dbs.sql"
 
-# secret () - postgresql-password-backend-secret.yaml
+### secret () - postgresql-password-backend-secret.yaml
 
 - if not .Values.postgresql.enabled
 include "backend.postgresql.passwordSecret" .
 .Release.Name
 .Values.appConfig.backend.database.connection.password
 
-# secret () - postgresql-password-lighthouse-secret.yaml
+### secret () - postgresql-password-lighthouse-secret.yaml
 
 - if .Values.lighthouse.enabled
 - if not .Values.postgresql.enabled
@@ -236,7 +226,7 @@ include "lighthouse.postgresql.passwordSecret" .
 .Release.Name
 .Values.lighthouse.database.connection.password
 
-and app-config part based on these custom values (check latest settings):
+# and app-config part based on these custom values (check latest settings):
 ```
 app:
   title: Backstage - Catena-X
