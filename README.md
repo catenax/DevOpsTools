@@ -1,2 +1,6 @@
-# DevOpsTools
+# DevOpsTools (main branch)
 [Backstage](https://github.com/catenax/DevOpsTools/tree/main/Backstage)
+[Grafana](https://github.com/catenax/DevOpsTools/tree/main/Grafana)
+[Ingress](https://github.com/catenax/DevOpsTools/tree/main/Ingress)
+[Prometheus](https://github.com/catenax/DevOpsTools/tree/main/Prometheus)
+[Thanos](https://github.com/catenax/DevOpsTools/tree/main/Thanos)

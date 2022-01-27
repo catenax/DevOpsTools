@@ -1,0 +1,65 @@
+# kubernetes/backstage.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backstage.fullname" . }}-backend
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: backstage
+      component: backend
+  template:
+    metadata:
+      annotations:
+        ad.datadoghq.com/backstage.logs: '[{"source":"backstage","service":"backend"}]'
+      labels:
+        app: backstage
+        component: backend
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-backend
+          command: ["node"]
+          args:
+            - "packages/backend"
+            - "--config"
+            - "app-config.yaml"
+            - "--config"
+            - {{ printf "/usr/src/app/%s" (include "backstage.appConfigFilename" .) | quote }}
+          image: {{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.backend.containerPort }}
+          resources:
+          {{- toYaml .Values.backend.resources | nindent 12 }}
+          envFrom:
+            - secretRef:
+                name: backstage-secrets
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.backend.nodeEnv | default "development" }}
+          volumeMounts:
+            {{- if .Values.backend.postgresCertMountEnabled }}
+            - name: postgres-ca
+              mountPath: {{ include "backstage.backend.postgresCaDir" . }}
+            {{- end }}
+            - name: app-config
+              mountPath: {{ printf "/usr/src/app/%s" (include "backstage.appConfigFilename" .) }}
+              subPath: {{ include "backstage.appConfigFilename" . }}
+      volumes:
+        {{- if .Values.backend.postgresCertMountEnabled }}
+        - name: postgres-ca
+          configMap:
+            name: {{ include "backstage.fullname" . }}-postgres-ca
+        {{- end }}
+        - name: app-config
+          configMap:
+            name: {{ include "backstage.fullname" . }}-app-config
+
+      {{- if .Values.global.nodeSelector }}
+      nodeSelector: {{- toYaml .Values.global.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.dockerRegistrySecretName }}
+      imagePullSecrets:
+        - name: {{ .Values.dockerRegistrySecretName }} #regcred
+      {{- end}}

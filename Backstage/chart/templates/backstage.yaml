@@ -1,0 +1,123 @@
+# backstage namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backstage
+---
+# backstage ingress config (controller and class deployed with terraform)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($scheme = https) {
+      add_header  Strict-Transport-Security "max-age=0;";
+      }
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  name: backstage-ingress
+  namespace: backstage
+spec:
+  ingressClassName: backstage
+  rules:
+  - host: cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: backstage
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+      - backend:
+          service:
+            name: backstage
+            port:
+              number: 80
+        path: /api/
+        pathType: Prefix
+  tls:
+  - hosts:
+    - cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    secretName: backstage-tls
+---
+# backstage secrets:
+# - github token and oauth application credentials
+# - postgresql connection settings and credentials
+# - backend secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backstage-secrets
+  namespace: backstage
+type: Opaque
+data:
+  GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+  AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+  AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
+  PG_HOST: ${{ secrets.PG_HOST }}
+  PG_PORT: ${{ secrets.PG_PORT }}
+  PG_USER: ${{ secrets.PG_USER }}
+  PG_PASS: ${{ secrets.PG_PASS }}
+  PG_DB: ${{ secrets.PG_DB }}
+  BACKEND_SECRET: ${{ secrets.BACKEND_SECRET }}
+---
+# backstage registry credetials
+apiVersion: v1
+kind: Secret
+metadata:
+  name: regcred
+  namespace: backstage
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: ${{ secrets.CXTSI_ACR_DOCKER_CONFIG_B64 }}
+---
+# backstage backend deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backstage.fullname" . }}-backend
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: backstage
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: backstage
+        component: backend
+    spec:
+      {{- if .Values.dockerRegistrySecretName }}
+      imagePullSecrets:
+        - name: {{ .Values.dockerRegistrySecretName }} #regcred
+      {{- end}}
+      containers:
+        - name: {{ .Chart.Name }}-backend
+          image: {{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          name: {{ .Chart.Name }}-backend
+          ports:
+            - containerPort: {{ .Values.backend.containerPort }}
+          resources:
+          {{- toYaml .Values.backend.resources | nindent 12 }}
+          envFrom:
+          - secretRef:
+              name: backstage-secrets
+---
+# backstage backend service
+{{- if .Values.backend.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "backend.serviceName" . }}
+spec:
+  ports:
+    - port: 80
+      targetPort: {{ .Values.backend.containerPort }}
+  selector:
+    app: backstage
+    component: backend
+  type: {{ .Values.backend.serviceType }}
+{{- end }}
