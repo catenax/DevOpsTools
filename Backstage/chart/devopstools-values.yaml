@@ -1,0 +1,50 @@
+dockerRegistrySecretName: backstage-regcred
+
+backend:
+  demoData: false
+  image:
+    repository: cxtsiacr.azurecr.io/backstage
+    tag: 0.1.3
+  postgresCertMountEnabled: false
+
+lighthouse:
+  enabled: false
+
+ingress:
+  enabled: false
+
+postgresql:
+  enabled: true
+
+appConfig:
+  app:
+    baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    title: Backstage - Catena-X
+    support:
+      url: https://github.com/catenax/DevOpsTools/issues
+      items:
+        - title: Issues
+          icon: github
+          links:
+            - url: https://github.com/catenax/DevOpsTools/issues
+              title: GitHub Issues
+  backend:
+    auth:
+      keys:
+        - secret: ${BACKEND_SECRET}
+    baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    cors:
+      origin: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    database:
+      client: pg
+      connection:
+        host: ${PG_HOST}
+        port: ${PG_PORT}
+        user: ${PG_USER}
+        password: ${PG_PASS}
+        database: ${PG_DB}
+  lighthouse:
+    baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/lighthouse-api
+  techdocs:
+    storageUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/api/techdocs/static/docs
+    requestUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/api/techdocs
