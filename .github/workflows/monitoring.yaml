@@ -1,11 +1,11 @@
-on:
-  push:
-    branches:
-      - feature/A1ODT-93
+#on:
+#  push:
+#    branches:
+#      - feature/A1ODT-93
 
 jobs:
   deploy:
-    name: Deploy Thanos 
+    name: Deploy Monitoring Stack 
     runs-on: ubuntu-latest
     environment: Catena-X dev/int
     steps:
@@ -19,13 +19,17 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
-      - name: Deploy Thanos 
-        env:
-          THANOS_STORAGEACCOUNT_KEY: ${{ secrets.THANOS_STORAGEACCOUNT_KEY }}
+      - name: Deploy Prometheus 
+        # manually create storageaccount key secret
+        # kubectl -n monitoring create secret generic thanos-objstore-config --from-file=thanos.yaml=thanos.yaml
         run: |
-          # sed -i "s/THANOS_STORAGEACCOUNT_KEY/$THANOS_STORAGEACCOUNT_KEY/g" Thanos/kubernetes/storageaccount.yaml
+          helm upgrade prometheus prometheus --install --wait --repo=https://prometheus-community.github.io/helm-charts --namespace=monitoring --values=Prometheus/prometheus.yaml --atomic
+          kubectl apply -f Prometheus/kubernetes/externalname.yml
+          kubectl apply -f Ingress/ingress-gw.yml
           
-          # kubectl -n monitoring create secret generic thanos-objstore-config -f Thanos/kubernetes/storageaccount.yaml
+
+      - name: Deploy Thanos 
+        run: |
           kubectl apply -f Thanos/kubernetes/querier-deployment.yaml
           kubectl apply -f Thanos/kubernetes/store-statefulset.yaml
           kubectl apply -f Thanos/kubernetes/compactor-statefulset.yaml

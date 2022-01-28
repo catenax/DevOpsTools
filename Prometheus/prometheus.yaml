@@ -1,5 +1,5 @@
 grafana:
-  adminPassword: admin 
+  enabled: false
 
 prometheus:
   thanosService:
@@ -23,4 +23,5 @@ prometheusOperator:
    
 kubelet:
   serviceMonitor:
-  https: false
+    https: false
+

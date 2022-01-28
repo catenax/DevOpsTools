@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - feature/A1ODT-93
+
+jobs:
+  deploy:
+    name: Deploy Loki 
+    runs-on: ubuntu-latest
+    environment: Catena-X dev/int
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set Kube Context
+        uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Deploy Loki 
+        run: |
+          helm upgrade grafana grafana --install --wait --repo=https://grafana.github.io/helm-charts --namespace=logging --atomic
+          
