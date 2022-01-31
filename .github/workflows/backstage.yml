@@ -52,7 +52,7 @@ jobs:
 
       - name: Deploy Backstage
         run: |
-          helm upgrade -i \
+          helm upgrade -i backstage\
           -n backstage \
           ./Backstage/chart \
           -f Backstage/chart/devopstools-values.yaml \
