@@ -1,17 +1,18 @@
+---
 # postgresql deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "backstage.fullname" . }}-postgres
+  name: {{include "backstage.fullname" .}}-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "backstage.fullname" . }}-postgres
+      app: {{include "backstage.fullname" .}}-postgres
   template:
     metadata:
       labels:
-        app: {{ include "backstage.fullname" . }}-postgres
+        app: {{include "backstage.fullname" .}}-postgres
     spec:
       containers:
         - name: postgres
@@ -21,11 +22,12 @@ spec:
             - containerPort: 5432
           envFrom:
             - secretRef:
-                name: {{ include "backstage.fullname" . }}-postgres-secrets
+                name: {{include "backstage.fullname" .}}-postgres-secrets
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgresdb
       volumes:
         - name: postgresdb
           persistentVolumeClaim:
-            claimName: {{ include "backstage.fullname" . }}-postgres-storage-claim
+            claimName: {{include "backstage.fullname" .}}-postgres-storage-claim
+...
