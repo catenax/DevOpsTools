@@ -6,8 +6,8 @@ metadata:
   name: postgres-secrets
 type: Opaque
 data:
-  POSTGRES_USER: ${{ secrets.PG_USER }}
-  POSTGRES_PASSWORD: ${{ secrets.PG_PASS }}
+  POSTGRES_USER: ${{ env.PG_USER }}
+  POSTGRES_PASSWORD: ${{ env.PG_PASS }}
 ---
 # postgresql storage
 apiVersion: v1
