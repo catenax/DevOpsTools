@@ -39,6 +39,9 @@ jobs:
     name: Deploy Backstage
     runs-on: ubuntu-latest
     environment: Catena-X dev/int
+    env:
+      PG_USER: ${{ secrets.PG_USER }}
+      PG_PASS: ${{ secrets.PG_PASS }}
     steps:
 
       - name: Checkout repository
