@@ -55,7 +55,6 @@ jobs:
           helm upgrade -i backstage ./Backstage/chart \
           -n backstage \
           -f Backstage/chart/devopstools-values.yaml \
-          --verify
           --create-namespace \
           --atomic \
           --dry-run
