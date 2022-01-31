@@ -62,10 +62,14 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: Deploy Backstage
+        working-directory: Backstage/chart
         run: |
-          helm upgrade -i backstage-helmtest ./Backstage/chart \
+          cat templates/backstage_.yaml | envsubst > templates/backstage.yaml
+          cat templates/postgresql_.yaml | envsubst > templates/postgresql.yaml
+          rm -f templates/backstage_.yaml templates/postgresql_.yaml
+          helm upgrade -i backstage-helmtest . \
           -n backstage-helmtest \
-          -f Backstage/chart/devopstools-values.yaml \
+          -f devopstools-values.yaml \
           --create-namespace \
           --atomic \
           --dry-run
