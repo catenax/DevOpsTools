@@ -11,41 +11,56 @@ on:
 env:
   bstag: 0.1.3
 
-jobs:
-  build:
-    name: Build Backstage
-    runs-on: catena-x
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - run: |
-          export NODE_OPTIONS="--max-old-space-size=4096"
-          cd Backstage/rel20220104
-          yarn install --frozen-lockfile
-          yarn tsc
-          yarn build
-          docker build .  -f packages/backend/Dockerfile -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
-          docker login cxtsiacr.azurecr.io -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_PASS }}
-          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
-
-#  deploy:
-#    name: Deploy Backstage
-#    runs-on: ubuntu-latest
-#    environment: Catena-X dev/int
+#jobs:
+#  build:
+#    name: Build Backstage
+#    runs-on: catena-x
 #    steps:
-
 #      - name: Checkout repository
 #        uses: actions/checkout@v2
+#      - run: |
+#          export NODE_OPTIONS="--max-old-space-size=4096"
+#          cd Backstage/rel20220104
+#          
+#          yarn install --frozen-lockfile
+#          yarn tsc
+#          yarn build
+#          
+#          docker build .  \
+#          -f packages/backend/Dockerfile \
+#          -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
+#          
+#          docker login cxtsiacr.azurecr.io \
+#          -u ${{ secrets.ACR_USER }} \
+#          -p ${{ secrets.ACR_PASS }}
+          
+#          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
 
-#      - name: Set Kube Context
-#        uses: azure/k8s-set-context@v1
-#        with:
-#          method: kubeconfig
-#          kubeconfig: ${{ secrets.KUBECONFIG }}
+  deploy:
+    name: Deploy Backstage
+    runs-on: ubuntu-latest
+    environment: Catena-X dev/int
+    steps:
 
-#      - name: Deploy Backstage
-#        run: |
-#          helm upgrade backstage backstage --install --wait --namespace=backstage --set=app.name=backstage --repo=https://charts.deliveryhero.io/ --values=Backstage/backstage-values.yaml --atomic
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set Kube Context
+        uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Deploy Backstage
+        run: |
+          helm upgrade -i \
+          -n backstage \
+          ./Backstage/chart \
+          -f Backstage/chart/devopstools-values.yaml \
+          --verify
+          --create-namespace \
+          --atomic \
+          --dry-run
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1
