@@ -21,5 +21,5 @@ jobs:
 
       - name: Deploy Loki 
         run: |
-          helm upgrade loki loki --install --wait --repo=https://grafana.github.io/helm-charts --namespace=logging --atomic
+          helm upgrade --install loki grafana/loki-stack --namespace logging --set grafana.enabled=false,prometheus.enabled=false,prometheus.alertmanager.persistentVolume.enabled=false,prometheus.server.persistentVolume.enabled=false --atomic 
           
