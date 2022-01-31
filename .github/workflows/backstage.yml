@@ -69,6 +69,7 @@ jobs:
           --set backend_secret=${{ secrets.BACKEND_SECRET }} \
           --set cxtsi_acr_docker_config=${{ secrets.CXTSI_ACR_DOCKER_CONFIG }} \
           --dry-run
+          --debug
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1
