@@ -1,14 +1,15 @@
+---
 # backstage ingress config (controller and class deployed with terraform)
-{{- if .Values.ingress.enabled }}
+{{- if .Values.ingress.enabled}}
 {{- $frontendUrl := urlParse .Values.appConfig.app.baseUrl}}
 {{- $backendUrl := urlParse .Values.appConfig.backend.baseUrl}}
 {{- $lighthouseUrl := urlParse .Values.appConfig.lighthouse.baseUrl}}
 {{/* Determine the api type for the ingress */}}
-{{- if lt .Capabilities.KubeVersion.Minor "19" }}
+{{- if lt .Capabilities.KubeVersion.Minor "19"}}
 apiVersion: networking.k8s.io/v1beta1
-{{- else if ge .Capabilities.KubeVersion.Minor "19" }}
+{{- else if ge .Capabilities.KubeVersion.Minor "19"}}
 apiVersion: networking.k8s.io/v1
-{{- end }}
+{{- end}}
 kind: Ingress
 metadata:
   annotations:
@@ -17,102 +18,105 @@ metadata:
       add_header  Strict-Transport-Security "max-age=0;";
       }
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  name: {{ include "backstage.fullname" . }}-ingress
+  name: {{include "backstage.fullname" .}}-ingress
 spec:
   ingressClassName: backstage
   tls:
   - hosts:
-        - {{ $frontendUrl.host }}
-        {{- if not ( eq $frontendUrl.host $backendUrl.host ) }}
-        - {{ $backendUrl.host }}
-        {{- end }}
-        {{- if not ( eq $frontendUrl.host $lighthouseUrl.host ) }}
-        - {{ $lighthouseUrl.host }}
-        {{- end }}
+        - {{$frontendUrl.host}}
+        {{- if not ( eq $frontendUrl.host $backendUrl.host )}}
+        - {{$backendUrl.host}}
+        {{- end}}
+        {{- if not ( eq $frontendUrl.host $lighthouseUrl.host )}}
+        - {{$lighthouseUrl.host}}
+        {{- end}}
     secretName: backstage-tls
   rules:
-    - host: {{ $frontendUrl.host }}
+    - host: {{$frontendUrl.host}}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ include "frontend.serviceName" . }}
+                name: {{include "frontend.serviceName" .}}
                 port:
                   number: 80
-          {{/* Route the backend inside the same hostname as the frontend when they are the same */}}
+          {{/* Route the backend inside the same hostname
+                as the frontend when they are the same */}}
           {{- if eq $frontendUrl.host $backendUrl.host}}
           - path: /api/
             pathType: Prefix
             backend:
               service:
-                name: {{ include "backend.serviceName" . }}
+                name: {{include "backend.serviceName" .}}
                 port:
                   number: 80
           {{/* Route the backend through a different host */}}
           {{- else -}}
-    - host: {{ $backendUrl.host }}
+    - host: {{$backendUrl.host}}
       http:
         paths:
-          - path: {{ $backendUrl.path | default "/" }}
+          - path: {{$backendUrl.path | default "/"}}
             pathType: Prefix
             backend:
               service:
-                name: {{ include "backend.serviceName" . }}
+                name: {{include "backend.serviceName" .}}
                 port:
                   number: 80
-         {{- end }}
+         {{- end}}
 {{/* Route lighthouse through a different host */}}
-{{- if not ( eq $frontendUrl.host $lighthouseUrl.host ) }}
-    - host: {{ $lighthouseUrl.host }}
+{{- if not ( eq $frontendUrl.host $lighthouseUrl.host )}}
+    - host: {{$lighthouseUrl.host}}
       http:
         paths:
-          - path: {{ $lighthouseUrl.path | default "/" }}
+          - path: {{$lighthouseUrl.path | default "/"}}
             pathType: Prefix
             backend:
               service:
-                name: {{ include "lighthouse.serviceName" . }}
+                name: {{include "lighthouse.serviceName" .}}
                 port:
                   number: 80
-{{- else }}
-{{/* Route lighthouse by path with re-write rules when it is hosted under the same hostname */}}
+{{- else}}
+{{/* Route lighthouse by path with re-write rules
+      when it is hosted under the same hostname */}}
 ---
 {{/* Determine the api type for the ingress */}}
-{{- if lt .Capabilities.KubeVersion.Minor "19" }}
+{{- if lt .Capabilities.KubeVersion.Minor "19"}}
 apiVersion: networking.k8s.io/v1beta1
-{{- else if ge .Capabilities.KubeVersion.Minor "19" }}
+{{- else if ge .Capabilities.KubeVersion.Minor "19"}}
 apiVersion: networking.k8s.io/v1
-{{- end }}
+{{- end}}
 kind: Ingress
 metadata:
-  name: {{ include "backstage.fullname" . }}-ingress-lighthouse
+  name: {{include "backstage.fullname" .}}-ingress-lighthouse
   annotations:
-    {{- if .Values.issuer.email }}
-    cert-manager.io/cluster-issuer: {{ .Values.issuer.clusterIssuer }}
-    {{- end }}
+    {{- if .Values.issuer.email}}
+    cert-manager.io/cluster-issuer: {{.Values.issuer.clusterIssuer}}
+    {{- end}}
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       if ($scheme = https) {
       add_header  Strict-Transport-Security "max-age=0;";
       }
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- toYaml .Values.ingress.annotations | nindent 4}}
 spec:
   tls:
-    - secretName: {{ include "backstage.fullname" . }}-tls
+    - secretName: {{include "backstage.fullname" .}}-tls
       hosts:
-        - {{ $lighthouseUrl.host }}
+        - {{$lighthouseUrl.host}}
   rules:
-    - host: {{ $lighthouseUrl.host }}
+    - host: {{$lighthouseUrl.host}}
       http:
         paths:
           - path: {{$lighthouseUrl.path}}(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: {{ include "lighthouse.serviceName" . }}
+                name: {{include "lighthouse.serviceName" .}}
                 port:
                   number: 80
-{{- end }}
-{{- end }}
+{{- end}}
+{{- end}}
+...

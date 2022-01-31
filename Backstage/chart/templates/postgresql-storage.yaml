@@ -1,8 +1,9 @@
+---
 # postgresql storage
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ include "backstage.fullname" . }}-postgres-storage
+  name: {{include "backstage.fullname" .}}-postgres-storage
   labels:
     type: local
 spec:
@@ -18,7 +19,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "backstage.fullname" . }}-postgres-storage-claim
+  name: {{include "backstage.fullname" .}}-postgres-storage-claim
 spec:
   storageClassName: manual
   accessModes:
@@ -26,3 +27,4 @@ spec:
   resources:
     requests:
       storage: 2G
+...
