@@ -1,0 +1,28 @@
+# postgresql storage
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "backstage.fullname" . }}-postgres-storage
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2G
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: '/mnt/data'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "backstage.fullname" . }}-postgres-storage-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2G

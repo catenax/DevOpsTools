@@ -1,0 +1,10 @@
+# postgresql service
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "backstage.fullname" . }}-postgres
+spec:
+  selector:
+    app: {{ include "backstage.fullname" . }}-postgres
+  ports:
+    - port: 5432
