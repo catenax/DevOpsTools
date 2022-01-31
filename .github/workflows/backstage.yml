@@ -64,7 +64,7 @@ jobs:
           --set auth_github_client_secret=${{secrets.AUTH_GITHUB_CLIENT_SECRET}} \
           --set pg_host=${{secrets.PG_HOST}} \
           --set pg_port=${{secrets.PG_PORT}} \
-          --set pg_user=${{secrets.$PG_USER}} \
+          --set pg_user=${{secrets.PG_USER}} \
           --set pg_pass=${{secrets.PG_PASS}} \
           --set pg_db=${{secrets.PG_DB}} \
           --set backend_secret=${{secrets.BACKEND_SECRET}} \
