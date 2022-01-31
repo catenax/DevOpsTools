@@ -40,6 +40,17 @@ jobs:
     name: Deploy Backstage
     runs-on: ubuntu-latest
     environment: Catena-X Backstage
+    env:
+      TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
+      AUTH_GITHUB_CLIENT_ID: ${{secrets.AUTH_GITHUB_CLIENT_ID}}
+      AUTH_GITHUB_CLIENT_SECRET: ${{secrets.AUTH_GITHUB_CLIENT_SECRET}}
+      PG_HOST: ${{secrets.PG_HOST}}
+      PG_PORT: ${{secrets.PG_PORT}}
+      PG_USER: ${{secrets.PG_USER}}
+      PG_PASS: ${{secrets.PG_PASS}}
+      PG_DB: ${{secrets.PG_DB}}
+      BACKEND_SECRET: ${{secrets.BACKEND_SECRET}}
+      CXTSI_ACR_DOCKER_CONFIG: ${{secrets.CXTSI_ACR_DOCKER_CONFIG}}
     steps:
 
       - name: Checkout repository
@@ -59,16 +70,16 @@ jobs:
           -f devopstools-values.yaml \
           --create-namespace \
           --atomic \
-          --set token_github=${{secrets.TOKEN_GITHUB}} \
-          --set auth_github_client_id=${{secrets.AUTH_GITHUB_CLIENT_ID}} \
-          --set auth_github_client_secret=${{secrets.AUTH_GITHUB_CLIENT_SECRET}} \
-          --set pg_host=${{secrets.PG_HOST}} \
-          --set pg_port=${{secrets.PG_PORT}} \
-          --set pg_user=${{secrets.PG_USER}} \
-          --set pg_pass=${{secrets.PG_PASS}} \
-          --set pg_db=${{secrets.PG_DB}} \
-          --set backend_secret=${{secrets.BACKEND_SECRET}} \
-          --set cxtsi_acr_docker_config=${{secrets.CXTSI_ACR_DOCKER_CONFIG}} \
+          --set token_github="$TOKEN_GITHUB" \
+          --set auth_github_client_id="$AUTH_GITHUB_CLIENT_ID" \
+          --set auth_github_client_secret="$AUTH_GITHUB_CLIENT_SECRET" \
+          --set pg_host="$PG_HOST" \
+          --set pg_port="$PG_PORT" \
+          --set pg_user="$PG_USER" \
+          --set pg_pass="$PG_PASS" \
+          --set pg_db="$PG_DB" \
+          --set backend_secret="$BACKEND_SECRET" \
+          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG" \
           --dry-run
           --debug
 
