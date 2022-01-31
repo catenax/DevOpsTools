@@ -39,7 +39,7 @@ jobs:
   deploy:
     name: Deploy Backstage
     runs-on: ubuntu-latest
-    environment: Catena-X dev/int
+    environment: Catena-X Backstage
     steps:
 
       - name: Checkout repository
