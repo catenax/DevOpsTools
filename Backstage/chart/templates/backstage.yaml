@@ -127,15 +127,15 @@ metadata:
   name: backstage-secrets
 type: Opaque
 data:
-  GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-  AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
-  AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
-  PG_HOST: ${{ secrets.PG_HOST }}
-  PG_PORT: ${{ secrets.PG_PORT }}
-  PG_USER: ${{ secrets.PG_USER }}
-  PG_PASS: ${{ secrets.PG_PASS }}
-  PG_DB: ${{ secrets.PG_DB }}
-  BACKEND_SECRET: ${{ secrets.BACKEND_SECRET }}
+  GITHUB_TOKEN: ${TOKEN_GITHUB}
+  AUTH_GITHUB_CLIENT_ID: ${AUTH_GITHUB_CLIENT_ID}
+  AUTH_GITHUB_CLIENT_SECRET: ${AUTH_GITHUB_CLIENT_SECRET}
+  PG_HOST: ${PG_HOST}
+  PG_PORT: ${PG_PORT}
+  PG_USER: ${PG_USER}
+  PG_PASS: ${PG_PASS}
+  PG_DB: ${PG_DB}
+  BACKEND_SECRET: ${BACKEND_SECRET}
 ---
 # backstage registry credetials
 apiVersion: v1
@@ -144,7 +144,7 @@ metadata:
   name: backstage-regcred
 type: kubernetes.io/dockerconfigjson
 data:
-  .dockerconfigjson: ${{ secrets.CXTSI_ACR_DOCKER_CONFIG }}
+  .dockerconfigjson: ${CXTSI_ACR_DOCKER_CONFIG}
 ---
 # backstage backend deployment
 apiVersion: apps/v1

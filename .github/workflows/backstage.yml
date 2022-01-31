@@ -42,6 +42,14 @@ jobs:
     env:
       PG_USER: ${{ secrets.PG_USER }}
       PG_PASS: ${{ secrets.PG_PASS }}
+      GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+      AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+      AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
+      PG_HOST: ${{ secrets.PG_HOST }}
+      PG_PORT: ${{ secrets.PG_PORT }}
+      PG_DB: ${{ secrets.PG_DB }}
+      BACKEND_SECRET: ${{ secrets.BACKEND_SECRET }}
+      CXTSI_ACR_DOCKER_CONFIG: ${{ secrets.CXTSI_ACR_DOCKER_CONFIG }}
     steps:
 
       - name: Checkout repository
