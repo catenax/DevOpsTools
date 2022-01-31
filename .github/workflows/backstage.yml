@@ -1,4 +1,10 @@
-on: workflow_dispatch
+on:
+  push:
+    paths:
+      - '.github/workflows/backstage.yml'
+      - 'Backstage/**'
+    branches:
+      - backstage
 
 env:
   bstag: 0.1.3
