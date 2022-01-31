@@ -67,12 +67,13 @@ jobs:
           cat templates/backstage_.yaml | envsubst > templates/backstage.yaml
           cat templates/postgresql_.yaml | envsubst > templates/postgresql.yaml
           rm -f templates/backstage_.yaml templates/postgresql_.yaml
-          helm upgrade -i backstage-helmtest . \
-          -n backstage-helmtest \
-          -f devopstools-values.yaml \
-          --create-namespace \
-          --atomic \
-          --dry-run
+          cat templates/backstage.yaml && cat templates/postgresql.yaml
+          #helm upgrade -i backstage-helmtest . \
+          #-n backstage-helmtest \
+          #-f devopstools-values.yaml \
+          #--create-namespace \
+          #--atomic \
+          #--dry-run
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1
