@@ -1,9 +1,3 @@
-# backstage namespace
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: backstage
----
 # backstage ingress config (controller and class deployed with terraform)
 {{- if .Values.ingress.enabled }}
 {{- $frontendUrl := urlParse .Values.appConfig.app.baseUrl}}
