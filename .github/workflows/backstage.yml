@@ -1,3 +1,4 @@
+---
 on:
   push:
     paths:
@@ -20,19 +21,19 @@ jobs:
 #      - run: |
 #          export NODE_OPTIONS="--max-old-space-size=4096"
 #          cd Backstage/rel20220104
-#          
+#
 #          yarn install --frozen-lockfile
 #          yarn tsc
 #          yarn build
-#          
+#
 #          docker build .  \
 #          -f packages/backend/Dockerfile \
 #          -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
-#          
+#
 #          docker login cxtsiacr.azurecr.io \
 #          -u ${{ secrets.ACR_USER }} \
 #          -p ${{ secrets.ACR_PASS }}
-          
+#
 #          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
 
   deploy:
@@ -48,7 +49,7 @@ jobs:
         uses: azure/k8s-set-context@v1
         with:
           method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+          kubeconfig: ${{secrets.KUBECONFIG}}
 
       - name: Deploy Backstage
         working-directory: Backstage/chart
@@ -58,16 +59,16 @@ jobs:
           -f devopstools-values.yaml \
           --create-namespace \
           --atomic \
-          --set token_github=${{ secrets.TOKEN_GITHUB }} \
-          --set auth_github_client_id=${{ secrets.AUTH_GITHUB_CLIENT_ID }} \
-          --set auth_github_client_secret=${{ secrets.AUTH_GITHUB_CLIENT_SECRET }} \
-          --set pg_host=${{ secrets.PG_HOST }} \
-          --set pg_port=${{ secrets.PG_PORT }} \
-          --set pg_user=$PG_USER \
-          --set pg_pass=${{ secrets.PG_PASS }} \
-          --set pg_db=${{ secrets.PG_DB }} \
-          --set backend_secret=${{ secrets.BACKEND_SECRET }} \
-          --set cxtsi_acr_docker_config=${{ secrets.CXTSI_ACR_DOCKER_CONFIG }} \
+          --set token_github=${{secrets.TOKEN_GITHUB}} \
+          --set auth_github_client_id=${{secrets.AUTH_GITHUB_CLIENT_ID}} \
+          --set auth_github_client_secret=${{secrets.AUTH_GITHUB_CLIENT_SECRET}} \
+          --set pg_host=${{secrets.PG_HOST}} \
+          --set pg_port=${{secrets.PG_PORT}} \
+          --set pg_user=${{secrets.$PG_USER}} \
+          --set pg_pass=${{secrets.PG_PASS}} \
+          --set pg_db=${{secrets.PG_DB}} \
+          --set backend_secret=${{secrets.BACKEND_SECRET}} \
+          --set cxtsi_acr_docker_config=${{secrets.CXTSI_ACR_DOCKER_CONFIG}} \
           --dry-run
           --debug
 
@@ -81,3 +82,4 @@ jobs:
 #          value-files: Backstage/backstage-values.yaml
 #        env:
 #          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
+...
