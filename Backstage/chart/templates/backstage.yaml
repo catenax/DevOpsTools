@@ -124,7 +124,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: backstage-secrets
+  name: {{ include "backstage.fullname" . }}-secrets
 type: Opaque
 data:
   GITHUB_TOKEN: ${TOKEN_GITHUB}
@@ -141,7 +141,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: backstage-regcred
+  name: {{ include "backstage.fullname" . }}-regcred
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: ${CXTSI_ACR_DOCKER_CONFIG}
@@ -155,12 +155,12 @@ spec:
   replicas: {{ .Values.backend.replicaCount }}
   selector:
     matchLabels:
-      app: backstage
+      app: {{ include "backstage.fullname" . }}-backstage
       component: backend
   template:
     metadata:
       labels:
-        app: backstage
+        app: {{ include "backstage.fullname" . }}-backstage
         component: backend
     spec:
       {{- if .Values.dockerRegistrySecretName }}
@@ -178,20 +178,20 @@ spec:
           {{- toYaml .Values.backend.resources | nindent 12 }}
           envFrom:
           - secretRef:
-              name: backstage-secrets
+              name: {{ include "backstage.fullname" . }}-secrets
 ---
 # backstage backend service
 {{- if .Values.backend.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "backend.serviceName" . }}
+  name: {{ include "backstage.fullname" . }}
 spec:
   ports:
     - port: 80
       targetPort: {{ .Values.backend.containerPort }}
   selector:
-    app: backstage
+    app: {{ include "backstage.fullname" . }}-backstage
     component: backend
   type: {{ .Values.backend.serviceType }}
 {{- end }}

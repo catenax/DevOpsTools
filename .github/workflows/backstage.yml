@@ -63,7 +63,7 @@ jobs:
 
       - name: Deploy Backstage
         run: |
-          helm upgrade -i backstage ./Backstage/chart \
+          helm upgrade -i backstage-helmtest ./Backstage/chart \
           -n backstage-helmtest \
           -f Backstage/chart/devopstools-values.yaml \
           --create-namespace \

@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: postgres-secrets
+  name: {{ include "backstage.fullname" . }}-postgres-secrets
 type: Opaque
 data:
   POSTGRES_USER: ${PG_USER}
@@ -13,7 +13,7 @@ data:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-storage
+  name: {{ include "backstage.fullname" . }}-postgres-storage
   labels:
     type: local
 spec:
@@ -29,7 +29,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-storage-claim
+  name: {{ include "backstage.fullname" . }}-postgres-storage-claim
 spec:
   storageClassName: manual
   accessModes:
@@ -42,10 +42,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: {{ include "backstage.fullname" . }}-postgres
 spec:
   selector:
-    app: postgres
+    app: {{ include "backstage.fullname" . }}-postgres
   ports:
     - port: 5432
 ---
@@ -53,16 +53,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: {{ include "backstage.fullname" . }}-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: {{ include "backstage.fullname" . }}-postgres
   template:
     metadata:
       labels:
-        app: postgres
+        app: {{ include "backstage.fullname" . }}-postgres
     spec:
       containers:
         - name: postgres
@@ -72,12 +72,12 @@ spec:
             - containerPort: 5432
           envFrom:
             - secretRef:
-                name: postgres-secrets
+                name: {{ include "backstage.fullname" . }}-postgres-secrets
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgresdb
       volumes:
         - name: postgresdb
           persistentVolumeClaim:
-            claimName: postgres-storage-claim
+            claimName: {{ include "backstage.fullname" . }}-postgres-storage-claim
 {{- end }}
