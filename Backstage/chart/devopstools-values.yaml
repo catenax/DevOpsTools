@@ -9,7 +9,7 @@ lighthouse:
   enabled: false
 
 ingress:
-  enabled: true
+  enabled: false
 
 postgresql:
   enabled: true
