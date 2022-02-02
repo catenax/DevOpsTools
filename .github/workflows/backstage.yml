@@ -26,7 +26,7 @@ jobs:
             path: Backstage
       - run: |
           cd Backstage
-          yes | cp -rf authproviders/* backstage/app/src
+          yes | cp -f authproviders/* backstage/app/src
           
           #export NODE_OPTIONS="--max-old-space-size=4096"
           #cd Backstage/backstage
