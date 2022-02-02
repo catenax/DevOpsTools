@@ -26,24 +26,24 @@ jobs:
           path: Backstage/backstage
       - run: |
           cd Backstage
-          yes | cp -f authproviders/* backstage/app/src
+          yes | cp -f authproviders/* backstage/packages/app/src
           
-          #export NODE_OPTIONS="--max-old-space-size=4096"
-          #cd Backstage/backstage
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          cd backstage
 
-          #yarn install --frozen-lockfile
-          #yarn tsc
-          #yarn build
+          yarn install --frozen-lockfile
+          yarn tsc
+          yarn build
 
-          #docker build .  \
-          #-f packages/backend/Dockerfile \
-          #-t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
+          docker build .  \
+          -f packages/backend/Dockerfile \
+          -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
 
-          #docker login cxtsiacr.azurecr.io \
-          #-u ${{ secrets.ACR_USER }} \
-          #-p ${{ secrets.ACR_PASS }}
+          docker login cxtsiacr.azurecr.io \
+          -u ${{ secrets.ACR_USER }} \
+          -p ${{ secrets.ACR_PASS }}
 
-          #docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
+          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
 
 #  deploy:
 #    name: Deploy Backstage
