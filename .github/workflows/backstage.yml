@@ -1,11 +1,11 @@
 ---
 on:
   push:
-    paths:
-      - '.github/workflows/backstage.yml'
-      - 'Backstage/**'
+    #paths:
+      #- '.github/workflows/backstage.yml'
+      #- 'Backstage/**'
     branches:
-      - backstage
+      - backstage-deploy
 
 env:
   bstag: 0.1.3
