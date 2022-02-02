@@ -23,7 +23,7 @@ jobs:
         with:
           repository: backstage/backstage
           ref: ${{env.bstag}}
-          path: Backstage
+          path: Backstage/backstage
       - run: |
           cd Backstage
           yes | cp -f authproviders/* backstage/app/src
