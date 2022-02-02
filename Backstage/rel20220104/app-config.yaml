@@ -1,6 +1,6 @@
 app:
-  title: Backstage - Catena-X
-  baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+  title: Backstage Example App
+  baseUrl: http://localhost:3000
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
@@ -9,35 +9,35 @@ app:
   #   env: # optional
 
   support:
-    url: https://github.com/catenax/DevOpsTools/issues # Used by common ErrorPage
+    url: https://github.com/backstage/backstage/issues # Used by common ErrorPage
     items: # Used by common SupportButton component
       - title: Issues
         icon: github
         links:
-          - url: https://github.com/catenax/DevOpsTools/issues
+          - url: https://github.com/backstage/backstage/issues
             title: GitHub Issues
+      - title: Discord Chatroom
+        icon: chat
+        links:
+          - url: https://discord.gg/MUpMjP2
+            title: '#backstage'
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
   # See backend-to-backend-auth.md in the docs for information on the format
-  auth:
-    keys:
-      - secret: ${BACKEND_SECRET}
-  baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+  # auth:
+  #   keys:
+  #     - secret: ${BACKEND_SECRET}
+  baseUrl: http://localhost:7007
   listen:
     port: 7007
   database:
-    client: pg
-    connection:
-      host: ${PG_HOST}
-      port: ${PG_PORT}
-      user: ${PG_USER}
-      password: ${PG_PASS}
-      database: ${PG_DB}
+    client: sqlite3
+    connection: ':memory:'
   cache:
     store: memory
   cors:
-    origin: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    origin: http://localhost:3000
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   csp:
@@ -108,7 +108,7 @@ proxy:
       Authorization: ${AIRFLOW_BASIC_AUTH_HEADER}
 
 organization:
-  name: Catena-X
+  name: My Company
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -122,8 +122,6 @@ techdocs:
     # pullImage: true # or false to disable automatic pulling of image (e.g. if custom docker login is required)
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3' or 'azureBlobStorage' or 'openStackSwift'. Read documentation for using alternatives.
-  storageUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/api/techdocs/static/docs
-  requestUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/api/techdocs
 
 sentry:
   organization: my-company
@@ -134,7 +132,7 @@ rollbar:
   accountToken: my-rollbar-account-token
 
 lighthouse:
-  baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/lighthouse-api
+  baseUrl: http://localhost:3003
 
 kubernetes:
   serviceLocatorMethod:
@@ -305,79 +303,78 @@ auth:
   # session:
   #   secret: custom session secret
   providers:
-#    google:
-#      development:
-#        clientId: ${AUTH_GOOGLE_CLIENT_ID}
-#        clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
+    google:
+      development:
+        clientId: ${AUTH_GOOGLE_CLIENT_ID}
+        clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
     github:
       development:
-        appOrigin: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
-        callbackUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/api/auth/github/handler/frame
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-#    gitlab:
-#      development:
-#        clientId: ${AUTH_GITLAB_CLIENT_ID}
-#        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-#        audience: ${GITLAB_BASE_URL}
-#    saml:
-#      entryPoint: 'http://localhost:7001/'
-#      issuer: 'passport-saml'
-#      cert: 'fake-cert-base64'
-#    okta:
-#      development:
-#        clientId: ${AUTH_OKTA_CLIENT_ID}
-#        clientSecret: ${AUTH_OKTA_CLIENT_SECRET}
-#        audience: ${AUTH_OKTA_AUDIENCE}
-#    oauth2:
-#      development:
-#        clientId: ${AUTH_OAUTH2_CLIENT_ID}
-#        clientSecret: ${AUTH_OAUTH2_CLIENT_SECRET}
-#        authorizationUrl: ${AUTH_OAUTH2_AUTH_URL}
-#        tokenUrl: ${AUTH_OAUTH2_TOKEN_URL}
+        enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
+    gitlab:
+      development:
+        clientId: ${AUTH_GITLAB_CLIENT_ID}
+        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+        audience: ${GITLAB_BASE_URL}
+    saml:
+      entryPoint: 'http://localhost:7001/'
+      issuer: 'passport-saml'
+      cert: 'fake-cert-base64'
+    okta:
+      development:
+        clientId: ${AUTH_OKTA_CLIENT_ID}
+        clientSecret: ${AUTH_OKTA_CLIENT_SECRET}
+        audience: ${AUTH_OKTA_AUDIENCE}
+    oauth2:
+      development:
+        clientId: ${AUTH_OAUTH2_CLIENT_ID}
+        clientSecret: ${AUTH_OAUTH2_CLIENT_SECRET}
+        authorizationUrl: ${AUTH_OAUTH2_AUTH_URL}
+        tokenUrl: ${AUTH_OAUTH2_TOKEN_URL}
         ###
         # provide a list of scopes as needed for your OAuth2 Server:
         #
         # scope: saml-login-selector openid profile email
-#    oidc:
+    oidc:
       # Note that you must define a session secret (see above) since the oidc provider requires session support.
       # Note that by default, this provider will use the 'none' prompt which assumes that your are already logged on in the IDP.
       # You should set prompt to:
       # - auto: will let the IDP decide if you need to log on or if you can skip login when you have an active SSO session
       # - login: will force the IDP to always present a login form to the user
-#      development:
-#        metadataUrl: ${AUTH_OIDC_METADATA_URL}
-#        clientId: ${AUTH_OIDC_CLIENT_ID}
-#        clientSecret: ${AUTH_OIDC_CLIENT_SECRET}
-#        authorizationUrl: ${AUTH_OIDC_AUTH_URL}
-#        tokenUrl: ${AUTH_OIDC_TOKEN_URL}
-#        tokenSignedResponseAlg: ${AUTH_OIDC_TOKEN_SIGNED_RESPONSE_ALG} # default='RS256'
-#        scope: ${AUTH_OIDC_SCOPE} # default='openid profile email'
-#        prompt: ${AUTH_OIDC_PROMPT} # default=none (allowed values: auto, none, consent, login)
-#    auth0:
-#      development:
-#        clientId: ${AUTH_AUTH0_CLIENT_ID}
-#        clientSecret: ${AUTH_AUTH0_CLIENT_SECRET}
-#        domain: ${AUTH_AUTH0_DOMAIN}
-#    microsoft:
-#      development:
-#        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
-#        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-#        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-#    onelogin:
-#      development:
-#        clientId: ${AUTH_ONELOGIN_CLIENT_ID}
-#        clientSecret: ${AUTH_ONELOGIN_CLIENT_SECRET}
-#        issuer: ${AUTH_ONELOGIN_ISSUER}
-#    bitbucket:
-#      development:
-#        clientId: ${AUTH_BITBUCKET_CLIENT_ID}
-#        clientSecret: ${AUTH_BITBUCKET_CLIENT_SECRET}
-#    atlassian:
-#      development:
-#        clientId: ${AUTH_ATLASSIAN_CLIENT_ID}
-#        clientSecret: ${AUTH_ATLASSIAN_CLIENT_SECRET}
-#        scopes: ${AUTH_ATLASSIAN_SCOPES}
+      development:
+        metadataUrl: ${AUTH_OIDC_METADATA_URL}
+        clientId: ${AUTH_OIDC_CLIENT_ID}
+        clientSecret: ${AUTH_OIDC_CLIENT_SECRET}
+        authorizationUrl: ${AUTH_OIDC_AUTH_URL}
+        tokenUrl: ${AUTH_OIDC_TOKEN_URL}
+        tokenSignedResponseAlg: ${AUTH_OIDC_TOKEN_SIGNED_RESPONSE_ALG} # default='RS256'
+        scope: ${AUTH_OIDC_SCOPE} # default='openid profile email'
+        prompt: ${AUTH_OIDC_PROMPT} # default=none (allowed values: auto, none, consent, login)
+    auth0:
+      development:
+        clientId: ${AUTH_AUTH0_CLIENT_ID}
+        clientSecret: ${AUTH_AUTH0_CLIENT_SECRET}
+        domain: ${AUTH_AUTH0_DOMAIN}
+    microsoft:
+      development:
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+    onelogin:
+      development:
+        clientId: ${AUTH_ONELOGIN_CLIENT_ID}
+        clientSecret: ${AUTH_ONELOGIN_CLIENT_SECRET}
+        issuer: ${AUTH_ONELOGIN_ISSUER}
+    bitbucket:
+      development:
+        clientId: ${AUTH_BITBUCKET_CLIENT_ID}
+        clientSecret: ${AUTH_BITBUCKET_CLIENT_SECRET}
+    atlassian:
+      development:
+        clientId: ${AUTH_ATLASSIAN_CLIENT_ID}
+        clientSecret: ${AUTH_ATLASSIAN_CLIENT_SECRET}
+        scopes: ${AUTH_ATLASSIAN_SCOPES}
 costInsights:
   engineerCost: 200000
   products:
