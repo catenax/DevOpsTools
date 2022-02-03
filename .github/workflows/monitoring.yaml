@@ -19,8 +19,22 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
+      - name: Deploy Central Grafana
+        env:
+          GRAFANA_ADMIN_PASS: ${{ secrets.GRAFANA_ADMIN_PASS }}
+          GRAFANA_ADMIN_USER: ${{ secrets.GRAFANA_ADMIN_USER }}
+          GRAFANA_GH_CLIENT_ID: ${{ secrets.GRAFANA_GH_CLIENT_ID }}
+          GRAFANA_GH_CLIENT_SECRET: ${{ secrets.GRAFANA_GH_CLIENT_SECRET }}
+        run: |
+          sed -i "s/GRAFANA_ADMIN_PASS/$GRAFANA_ADMIN_PASS/g" Grafana/values.yaml
+          sed -i "s/GRAFANA_ADMIN_USER/$GRAFANA_ADMIN_USER/g" Grafana/values.yaml
+          sed -i "s/GRAFANA_GH_CLIENT_ID/$GRAFANA_GH_CLIENT_ID/g" Grafana/values.yaml
+          sed -i "s/GRAFANA_GH_CLIENT_SECRET/$GRAFANA_GH_CLIENT_SECRET/g" Grafana/values.yaml
+          helm upgrade grafana grafana --install --wait --repo=https://grafana.github.io/helm-charts --namespace=monitoring --values=Grafana/values.yaml --atomic
+          kubectl apply -f Grafana/kubernetes/externalname.yaml
+
       - name: Deploy Prometheus 
-        # manually create storageaccount key secret
+        # manually create storageaccount key secret first (add correct key to file first)
         # kubectl -n monitoring create secret generic thanos-objstore-config --from-file=thanos.yaml=thanos.yaml
         run: |
           helm upgrade prometheus kube-prometheus-stack  --install --wait --repo=https://prometheus-community.github.io/helm-charts --namespace=monitoring --values=Prometheus/prometheus.yaml --atomic
@@ -33,4 +47,11 @@ jobs:
           kubectl apply -f Thanos/kubernetes/compactor-service-servicemonitor.yaml
           kubectl apply -f Thanos/kubernetes/store-servicemonitor.yaml
           kubectl apply -f Grafana/kubernetes/externalname.yml
- 
+
+      - name: Deploy Loki 
+        run: |
+          helm upgrade --install loki loki-stack --repo=https://grafana.github.io/helm-charts --namespace logging --set grafana.enabled=false,prometheus.enabled=false,prometheus.alertmanager.persistentVolume.enabled=false,prometheus.server.persistentVolume.enabled=false --atomic
+      
+      - name: Deploy Central Ingress
+        run: |
+          kubectl apply -f Ingress/ingress-gw.yml
