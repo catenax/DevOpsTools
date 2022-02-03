@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy Monitoring Stack 
+    name: Deploy Prometheus and Thanos 
     runs-on: ubuntu-latest
     environment: Catena-X dev/int
     steps:
@@ -36,5 +36,4 @@ jobs:
           kubectl apply -f Thanos/kubernetes/compactor-service-servicemonitor.yaml
           kubectl apply -f Thanos/kubernetes/store-servicemonitor.yaml
           kubectl apply -f Grafana/kubernetes/externalname.yml
-          kubectl apply -f Ingress/ingress-gw.yml
-          
+ 

@@ -1,0 +1,30 @@
+on:
+  push:
+    tags:
+      - v**
+
+jobs:
+  deploy:
+    name: Deploy Ingress 
+    runs-on: ubuntu-latest
+    environment: Catena-X dev/int
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set Kube Context
+        uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Deploy Ingress
+        run: |
+          kubectl apply -f Ingress/ingress-gw.yml
+ 
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: my-artifact
+#          path: Grafana/values.yaml
