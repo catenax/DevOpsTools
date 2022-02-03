@@ -38,6 +38,7 @@ jobs:
   build:
     name: Build Backstage
     runs-on: catena-x
+    needs: checktag
     if: ${{needs.checktah.outputs.build}} == "true"
     steps:
       - name: Checkout repository
