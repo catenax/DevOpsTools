@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - feature/A1ODT-93
+    tags:
+      - v**
 
 jobs:
   deploy:
