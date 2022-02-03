@@ -8,42 +8,70 @@ on:
       - backstage-deploy
 
 env:
-  bstag: v0.65.1
+  # pulltag: used to pull release from https://github.com/backstage/backstage
+  pulltag: "v0.65.1"
+  # pushtag: used to push custom image to cxtsiacr.azurecr.io
+  pushtag: "0.1.4"
 
 jobs:
+
+# Check if tag exists, only build if not
+
+  checktag:
+    name: Check if tag exists
+    runs-on: catena-x
+    steps:
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Check tag
+        run: |
+          tags=$(az acr repository show-tags -n cxtsiacr --repository backstage)
+          if ! echo $tags | grep ${{env.pushtag}} >> /dev/null; then
+            echo "::set-output name=build::true"
+          else
+            echo "::set-output name=build::false"
+          fi
 
   build:
     name: Build Backstage
     runs-on: catena-x
+    if: ${{needs.checktah.outputs.build}} == "true"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Checkout Backstage ${{env.bstag}}
+      - name: Checkout Backstage ${{env.pulltag}}
         uses: actions/checkout@v2
         with:
           repository: backstage/backstage
-          ref: ${{env.bstag}}
+          ref: ${{env.pulltag}}
           path: Backstage/backstage
-      - run: |
+
+      - name: Build Backstage
+        if: ${{needs.environment.outputs.workspace}}
+        run: |
+          
           cd Backstage
           yes | cp -f files/* backstage/packages/app/src
           
           export NODE_OPTIONS="--max-old-space-size=4096"
           cd backstage
-
+          
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
-
+          
           docker build .  \
           -f packages/backend/Dockerfile \
-          -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
-
+          -t cxtsiacr.azurecr.io/backstage:${{env.pushtag}}
+          
           docker login cxtsiacr.azurecr.io \
-          -u ${{ secrets.ACR_USER }} \
-          -p ${{ secrets.ACR_PASS }}
-
-          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
+          -u ${{secrets.ACR_USER}} \
+          -p ${{secrets.ACR_PASS}}
+          
+          docker push cxtsiacr.azurecr.io/backstage:${{env.pushtag}}
 
   deploy:
     name: Deploy Backstage
@@ -90,6 +118,7 @@ jobs:
           --set pg_db="$PG_DB" \
           --set backend_secret="$BACKEND_SECRET" \
           --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG" \
+          --set backend.image.tag=${{env.pushtag}}
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1
