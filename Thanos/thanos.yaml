@@ -1,5 +1,5 @@
 type: AZURE
 config:
   storage_account: 'cxtsidevopstoolsstorage'
-  storage_account_key: 'pH7J0T+9NWBPFNu6xAUfCRu7k2UEjTgHVpqFmzgq19CEHUZ5hatmgpeCpIP1YwXpGcuRga51N9mSN7lT3zu8oQ=='
+  storage_account_key: 'THANOS_STORAGEACCOUNT_KEY'
   container: 'metrics'
