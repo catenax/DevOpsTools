@@ -41,7 +41,7 @@ jobs:
     runs-on: catena-x
     environment: Catena-X Backstage
     needs: checktag
-    if: ${{needs.checktag.outputs.build=='true'}}
+    if: always() && ${{needs.checktag.outputs.build=='true'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -79,8 +79,8 @@ jobs:
     name: Deploy Backstage (with build)
     runs-on: ubuntu-latest
     environment: Catena-X Backstage
-    needs: build
-    if: ${{needs.checktag.outputs.build=='true'}}
+    needs: [checktag, build]
+    if: always() && ${{needs.checktag.outputs.build=='true'}}
     env:
       TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
       AUTH_GITHUB_CLIENT_ID: ${{secrets.AUTH_GITHUB_CLIENT_ID}}
@@ -128,7 +128,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Catena-X Backstage
     needs: checktag
-    if: ${{needs.checktag.outputs.build=='false'}}
+    if: always() && ${{needs.checktag.outputs.build=='false'}}
     env:
       TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
       AUTH_GITHUB_CLIENT_ID: ${{secrets.AUTH_GITHUB_CLIENT_ID}}
