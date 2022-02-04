@@ -82,7 +82,6 @@ jobs:
     name: Deploy Backstage
     runs-on: ubuntu-latest
     environment: Catena-X Backstage
-    needs: [checktag,build]
     if: ${{(needs.checktag.outputs.build=='true' && needs.build.result=='success') || needs.checktag.outputs.build=='false'}}
     env:
       TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
