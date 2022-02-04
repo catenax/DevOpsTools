@@ -62,10 +62,6 @@ lighthouse:
 nameOverride: ''
 fullnameOverride: ''
 
-ingress:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-
 issuer:
   email:
   clusterIssuer: 'letsencrypt-staging'
