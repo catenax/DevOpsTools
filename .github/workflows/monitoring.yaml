@@ -53,7 +53,7 @@ jobs:
       
       - name: Deploy Tempo 
         run: |
-          helm upgrade --install tempo grafana/tempo --namespace monitoring --set persistence.enabled=true
+          helm upgrade --install tempo tempo --repo=https://grafana.github.io/helm-charts --namespace monitoring --set persistence.enabled=true
       
       - name: Deploy Central Ingress
         run: |
