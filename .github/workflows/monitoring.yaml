@@ -51,6 +51,10 @@ jobs:
         run: |
           helm upgrade --install loki loki-stack --repo=https://grafana.github.io/helm-charts --namespace logging --set grafana.enabled=false,prometheus.enabled=false,prometheus.alertmanager.persistentVolume.enabled=false,prometheus.server.persistentVolume.enabled=false --atomic
       
+      - name: Deploy Tempo 
+        run: |
+          helm upgrade --install tempo grafana/tempo --namespace monitoring --set persistence.enabled=true
+      
       - name: Deploy Central Ingress
         run: |
           kubectl apply -f Ingress/ingress-gw.yml
