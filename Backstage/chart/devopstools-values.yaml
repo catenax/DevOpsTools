@@ -16,7 +16,7 @@ postgresql:
 
 appConfig:
   app:
-    baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    baseUrl: https://backstage.demo.catena-x.net
     title: Backstage - Catena-X
     support:
       url: https://github.com/catenax/DevOpsTools/issues
@@ -30,9 +30,9 @@ appConfig:
     auth:
       keys:
         - secret: ${BACKEND_SECRET}
-    baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+    baseUrl: https://backstage.demo.catena-x.net
     cors:
-      origin: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com
+      origin: https://backstage.demo.catena-x.net
     database:
       client: pg
       connection:
@@ -42,10 +42,10 @@ appConfig:
         password: ${PG_PASS}
         database: ${PG_DB}
   lighthouse:
-    baseUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/lighthouse-api
+    baseUrl: https://backstage.demo.catena-x.net/lighthouse-api
   techdocs:
-    storageUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/api/techdocs/static/docs
-    requestUrl: https://cxtsidevopstoolsbackstage.germanywestcentral.cloudapp.azure.com/api/techdocs
+    storageUrl: https://backstage.demo.catena-x.net/api/techdocs/static/docs
+    requestUrl: https://backstage.demo.catena-x.net/api/techdocs
 
 token_github: token_github
 auth_github_client_id: auth_github_client_id
