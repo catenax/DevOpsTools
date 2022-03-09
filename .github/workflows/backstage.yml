@@ -8,33 +8,41 @@ on:
       - backstage-deploy
 
 env:
-  bstag: 0.1.3
+  bstag: 0.1.7
 
 jobs:
 
-#  build:
-#    name: Build Backstage
-#    runs-on: catena-x
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#      - run: |
-#          export NODE_OPTIONS="--max-old-space-size=4096"
-#          cd Backstage/rel20220104
-#
-#          yarn install --frozen-lockfile
-#          yarn tsc
-#          yarn build
-#
-#          docker build .  \
-#          -f packages/backend/Dockerfile \
-#          -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
-#
-#          docker login cxtsiacr.azurecr.io \
-#          -u ${{ secrets.ACR_USER }} \
-#          -p ${{ secrets.ACR_PASS }}
-#
-#          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
+  build:
+    name: Build Backstage
+    runs-on: catena-x
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Checkout backstage release
+        uses: actions/checkout@v2
+        with:
+          repository: 'https://github.com/backstage/backstage.git'
+          ref: 'v0.70.1'
+          path: Backstage/release
+          fetch-depth: 1
+      - name: Build and push backstage image
+        working-directory: Backstage/release
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=4096"
+
+          yarn install --frozen-lockfile
+          yarn tsc
+          yarn build
+
+          docker build .  \
+          -f packages/backend/Dockerfile \
+          -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
+
+          docker login cxtsiacr.azurecr.io \
+          -u ${{ secrets.ACR_USER }} \
+          -p ${{ secrets.ACR_PASS }}
+
+          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
 
   deploy:
     name: Deploy Backstage
@@ -48,6 +56,7 @@ jobs:
       PG_PORT: ${{secrets.PG_PORT}}
       PG_USER: ${{secrets.PG_USER}}
       PG_PASS: ${{secrets.PG_PASS}}
+      PG_PATH: ${{github.sha}}
       PG_DB: ${{secrets.PG_DB}}
       BACKEND_SECRET: ${{secrets.BACKEND_SECRET}}
       CXTSI_ACR_DOCKER_CONFIG: ${{secrets.CXTSI_ACR_DOCKER_CONFIG}}
@@ -66,7 +75,7 @@ jobs:
         working-directory: Backstage/chart
         run: |
           helm upgrade -i backstage-helmtest . \
-          -n backstage-helmtest \
+          -n backstage \
           -f devopstools-values.yaml \
           --create-namespace \
           --atomic \
@@ -77,10 +86,10 @@ jobs:
           --set pg_port="$PG_PORT" \
           --set pg_user="$PG_USER" \
           --set pg_pass="$PG_PASS" \
+          --set pg_path="$PG_PATH" \
           --set pg_db="$PG_DB" \
           --set backend_secret="$BACKEND_SECRET" \
-          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG" \
-          --dry-run
+          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG"
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1
