@@ -54,6 +54,7 @@ pg_host: pg_host
 pg_port: pg_port
 pg_user: pg_user
 pg_pass: pg_pass
+pg_path: pg_path
 pg_db: pg_db
 backend_secret: backend_secret
 cxtsi_acr_docker_config: cxtsi_acr_docker_config
