@@ -1,48 +1,14 @@
 ---
 on:
-  push:
-    #paths:
-      #- '.github/workflows/backstage.yml'
-      #- 'Backstage/**'
-    branches:
-      - backstage-deploy
-
-env:
-  bstag: 0.1.7
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag of image to deploy'
+        required: true
+        default: '0.1.7'
+        type: string
 
 jobs:
-
-  build:
-    name: Build Backstage
-    runs-on: catena-x
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Checkout backstage release
-        uses: actions/checkout@v2
-        with:
-          repository: 'backstage/backstage'
-          ref: 'v0.70.1'
-          path: Backstage/release
-          fetch-depth: 1
-      - name: Build and push backstage image
-        working-directory: Backstage/release
-        run: |
-          export NODE_OPTIONS="--max-old-space-size=4096"
-
-          yarn install --frozen-lockfile
-          yarn tsc
-          yarn build
-
-          docker build .  \
-          -f packages/backend/Dockerfile \
-          -t cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
-
-          docker login cxtsiacr.azurecr.io \
-          -u ${{ secrets.ACR_USER }} \
-          -p ${{ secrets.ACR_PASS }}
-
-          docker push cxtsiacr.azurecr.io/backstage:${{ env.bstag }}
 
   deploy:
     name: Deploy Backstage
@@ -61,6 +27,7 @@ jobs:
       PG_DB: ${{secrets.PG_DB}}
       BACKEND_SECRET: ${{secrets.BACKEND_SECRET}}
       CXTSI_ACR_DOCKER_CONFIG: ${{secrets.CXTSI_ACR_DOCKER_CONFIG}}
+      IMAGE_TAG: ${{inputs.tag}}
     steps:
 
       - name: Checkout repository
@@ -90,7 +57,8 @@ jobs:
           --set pg_path="$PG_PATH" \
           --set pg_db="$PG_DB" \
           --set backend_secret="$BACKEND_SECRET" \
-          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG"
+          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG" \
+          --set image_tag="$IMAGE_TAG"
 
 #      - name: Deploy Backstage
 #        uses: deliverybot/helm@v1

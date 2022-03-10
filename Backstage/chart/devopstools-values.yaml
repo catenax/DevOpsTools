@@ -2,7 +2,7 @@ backend:
   demoData: false
   image:
     repository: cxtsiacr.azurecr.io/backstage
-    tag: 0.1.3
+    tag: '__IMAGE_TAG__'
   postgresCertMountEnabled: false
 
 lighthouse:

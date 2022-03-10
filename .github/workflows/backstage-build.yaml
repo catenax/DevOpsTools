@@ -1,0 +1,57 @@
+---
+on:
+  workflow-dispatch:
+    inputs:
+      version:
+        description: 'Official Backstage release'
+        required: true
+        default: 'v0.70.1'
+        type: string
+      tag:
+        description: 'Tag to be used for build'
+        required: true
+        default: '0.1.7'
+        type: string
+
+jobs:
+
+  build:
+    name: 'Build Backstage'
+    runs-on: catena-x
+    steps:
+
+      - name: 'Checkout repository'
+        uses: actions/checkout@v2
+
+      - name: 'Checkout backstage release'
+        uses: actions/checkout@v2
+        with:
+          repository: 'backstage/backstage'
+          ref: ${{inputs.version}}
+          path: Backstage/release
+          fetch-depth: 1
+
+      - name: 'Set image tag in values'
+        working_directory: Backstage/chart
+        run: |
+          sed -i 's/__IMAGE_TAG__/${{inputs.tag}}/g' devopstools-values.yaml
+
+      - name: 'Build and push backstage image'
+        working-directory: Backstage/release
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=4096"
+
+          yarn install --frozen-lockfile
+          yarn tsc
+          yarn build
+
+          docker build .  \
+          -f packages/backend/Dockerfile \
+          -t cxtsiacr.azurecr.io/backstage:${{inputs.tag}}
+
+          docker login cxtsiacr.azurecr.io \
+          -u ${{ secrets.ACR_USER }} \
+          -p ${{ secrets.ACR_PASS }}
+
+          docker push cxtsiacr.azurecr.io/backstage:${{inputs.tag}}
+...
