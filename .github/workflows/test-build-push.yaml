@@ -17,7 +17,7 @@ jobs:
       - name: Build Docker image
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          cd DevOpsTools/Backstage/rel20220104
+          cd Backstage/rel20220104
           yarn install --frozen-lockfile
           yarn tsc
           yarn build
