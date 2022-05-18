@@ -7,7 +7,7 @@ env:
 
 jobs:
   publish-docker-image:
-    runs-on: ubuntu-latest
+    runs-on: catena-x
     permissions:
       contents: read
       packages: write
