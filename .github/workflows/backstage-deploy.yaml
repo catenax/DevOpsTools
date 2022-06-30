@@ -44,7 +44,6 @@ jobs:
           -n backstage \
           -f devopstools-values.yaml \
           --create-namespace \
-          --atomic \
           --set token_github="$TOKEN_GITHUB" \
           --set auth_github_client_id="$AUTH_GITHUB_CLIENT_ID" \
           --set auth_github_client_secret="$AUTH_GITHUB_CLIENT_SECRET" \
