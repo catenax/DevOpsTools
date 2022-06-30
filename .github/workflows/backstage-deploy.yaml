@@ -5,7 +5,7 @@ on:
       tag:
         description: 'Tag of image to deploy'
         required: true
-        default: '0.1.7'
+        default: 'v1.3.0'
         type: string
 
 jobs:
@@ -13,8 +13,6 @@ jobs:
   deploy:
     name: Deploy Backstage
     runs-on: ubuntu-latest
-    environment: Catena-X Backstage
-    needs: build
     env:
       TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
       AUTH_GITHUB_CLIENT_ID: ${{secrets.AUTH_GITHUB_CLIENT_ID}}
@@ -57,7 +55,7 @@ jobs:
           --set pg_path="$PG_PATH" \
           --set pg_db="$PG_DB" \
           --set backend_secret="$BACKEND_SECRET" \
-          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG" \
+          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG_B64" \
           --set image_tag="$IMAGE_TAG"
 
 #      - name: Deploy Backstage
