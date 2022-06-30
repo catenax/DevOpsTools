@@ -31,6 +31,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: 'Set image tag in values'
+        working-directory: Backstage/chart
+        run: |
+          sed -i 's/__IMAGE_TAG__/${{inputs.tag}}/g' devopstools-values.yaml
+
       - name: Set Kube Context
         uses: azure/k8s-set-context@v1
         with:
