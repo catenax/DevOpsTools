@@ -24,7 +24,7 @@ jobs:
       PG_PATH: ${{github.sha}}
       PG_DB: ${{secrets.PG_DB}}
       BACKEND_SECRET: ${{secrets.BACKEND_SECRET}}
-      CXTSI_ACR_DOCKER_CONFIG: ${{secrets.CXTSI_ACR_DOCKER_CONFIG}}
+      CXTSI_ACR_DOCKER_CONFIG: ${{secrets.CXTSI_ACR_DOCKER_CONFIG_B64}}
       IMAGE_TAG: ${{inputs.tag}}
     steps:
 
