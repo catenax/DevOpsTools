@@ -55,7 +55,7 @@ jobs:
           --set pg_path="$PG_PATH" \
           --set pg_db="$PG_DB" \
           --set backend_secret="$BACKEND_SECRET" \
-          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG_B64" \
+          --set cxtsi_acr_docker_config="$CXTSI_ACR_DOCKER_CONFIG" \
           --set image_tag="$IMAGE_TAG"
 
 #      - name: Deploy Backstage
